@@ -1,4 +1,3 @@
-import React from 'react'
 import AdminEditProperties from "../components/AdminEditProperties"
 
 function EditProperty() {

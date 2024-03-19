@@ -1,10 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { IoMdAdd, IoMdRemove } from 'react-icons/io';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPropertySuccess, setError, setLoading } from '../features/propertiesSlice';
+import { addingProperty, getCities, getDevelopers } from '../api';
+import { fetchCities } from '../features/citiesSlice';
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
+import { fetchDevelopers } from '../features/developerSlice';
 
 function AddProperties() {
+
+    const dispatch = useDispatch();
+    const { isLoading } = useSelector((state) => state.property); 
+    const { data } = useSelector((state) => state.city); 
+    const { developers } = useSelector((state) => state.developer); 
+    const animatedComponents = makeAnimated();
 
     // --------------------------------------------
     const uploadImage = useRef(null);
@@ -13,10 +26,8 @@ function AddProperties() {
     const frameOfVideo = useRef(null);
     // --------------------------------------------
 
-
-
     // ------------------------------------------
-    const [optionsProperties,setOptionsProperties] = useState(false)
+    const [optionsDeveloper,setOptionsDeveloper] = useState(false)
     const [optionsCities,setOptionsCities] = useState(false)
     // ------------------------------------------
 
@@ -27,17 +38,13 @@ function AddProperties() {
     const [dynamicPaymentPlan,setDynamicPaymentPlan] = useState([{value:''}])
     // ------------------------------------------------------
 
-
-
     // ---------------------------------------------------
     const [smallImage,setSmallImage] = useState([])
     // ---------------------------------------------------
 
-
     // -----------------------------------------------------
-    const [formData,setFormData] = useState({propretyHeadline:'',price:'',beds:'',googleMapLink:'',description:'',mainImgaeLink:'',videoLink:''})
+    const [formData,setFormData] = useState({propretyHeadline:'',address:'',price:'',beds:'',handoverDate:'',googleMapLink:'',description:'',mainImgaeLink:'',videoLink:'',propertyType:'',cityName:"",developerRef:"",developerName:"",cityRef:""})
     // -----------------------------------------------------
-
 
     //---------------------------------------------------------------------------------------------------------------
     const handleDynamicFacilitiesMoreFields = ()=> setDynamicFacilitiesForm([...dynamicFacilitiesForm,{value:''}])
@@ -50,7 +57,6 @@ function AddProperties() {
     const uploadSmallImageButton = ()=> uploadSmallImage.current.click();
     // -----------------------------------------------------------------
     
-
     // -----------------------------------------------
     const hanldeUploading = (e)=>{
         const file = e.target.files
@@ -128,32 +134,93 @@ function AddProperties() {
       };
     // -------------------------------------------------
 
-    const handleSubmit = (e)=>{
+    const handlePropertyType = (value)=>{
+        const result = value.map((item)=> item.value )
+        setFormData({...formData,propertyType:result})   
+    }
+    const handleCity = (name,Id)=>{
+        setOptionsCities(!optionsCities)
+        setFormData({...formData,cityRef:Id,cityName:name})   
+    }
+    const handleDevelopers = (name,Id)=>{
+        setOptionsDeveloper(!optionsDeveloper)
+        setFormData({...formData,developerRef:Id,developerName:name})   
+    }
 
-  
-        let data = {
-            ...formData,
-            facilities:[...dynamicFacilitiesForm],
-            paymentPlan:[...dynamicPaymentPlan],
-            areasNearBy:[...dynamicAreasNearBy]
-        }
+    const handleSubmit = async(e)=>{
 
-        console.log(data)
-        
-
-
-        e.preventDefault()
         try {
-            successToast('Submit')
-        } catch (error) {
-            errorToast('error')
-        }
+            e.preventDefault()
+            let data = {
+                ...formData,
+                facilities:[...dynamicFacilitiesForm],
+                paymentPlan:[...dynamicPaymentPlan],
+                areasNearBy:[...dynamicAreasNearBy],
+                smallImage:smallImage
+            }
+            console.log(data)
+            dispatch(setLoading());
+            await addingProperty(data);
+            dispatch(addPropertySuccess());
+            successToast('Successfully added')
+            setFormData({
+                beds:'',
+                description:'',
+                googleMapLink:'',
+                handoverDate:'',
+                mainImgaeLink:'',
+                price:'',
+                propertyType:'',
+                propretyHeadline:'',
+                smallImgaeLink:'',
+                videoLink:'',
+                cityName:'',
+                developerRef:''
+            })
+        }  catch (error) {
+            if (error.response && error.response.data) {
+              dispatch(setError(error.response.data.message));
+              errorToast(error.response.data.message)
+            } else {
+              dispatch(setError('An error occurred during login.'));
+              errorToast('An error occurred during login.');
+            }
+          }
+    }
+
+    const removeSubImage = (indexOf)=>{
+       const result = smallImage.filter((i,index)=>index != indexOf)
+       setSmallImage(result)
     }
    
+    const fetchdata =async ()=>{
+      try {
+        const response_cities = await getCities()
+        dispatch(fetchCities(response_cities));
+        const response_developers = await getDevelopers()
+        dispatch(fetchDevelopers(response_developers));
+      } catch (error) {
+        if (error.response && error.response.data) {
+          dispatch(setError(error.response.data.message));
+          errorToast(error.response.data.message)
+        } else {
+          dispatch(setError('An error occurred during login.'));
+          errorToast('An error occurred during login.');
+        }
+      }
+      }
     
+      const options = [
+        { value: 'apartment', label: 'Apartment' },
+        { value: 'townhouse', label: 'Townhouse' },
+        { value: 'penthouse', label: 'Penthouse' }
+      ]
+      
 
-
-
+      useEffect(()=>{
+        fetchdata()
+      },[])
+    
   return (
     <form onSubmit={handleSubmit} className='flex flex-wrap'>
         <div className=''>
@@ -161,53 +228,41 @@ function AddProperties() {
             {/* Proprety Headline */}
             <div className="flex flex-col gap-2 mx-3">
                 <label   htmlFor="propretyHeadline" className="sf-medium text-sm text-[#000000]">Proprety Headline</label>
-                <input autoComplete="" value={formData.propretyHeadline} name="propretyHeadline" onChange={handleChange} type="text" id="propretyHeadline" placeholder="Parkside Hills" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <input disabled={isLoading} autoComplete="" value={formData.propretyHeadline} name="propretyHeadline" onChange={handleChange} type="text" id="propretyHeadline" placeholder="Parkside Hills" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
             {/* Price */}
             <div className="flex flex-col gap-2 mx-3">
                 <label   htmlFor="price" className="sf-medium text-sm text-[#000000]">Price (From in AED)</label>
-                <input autoComplete="" name="price" value={formData.price} onChange={handleChange} type="text" id="price" placeholder="4M" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <input disabled={isLoading} autoComplete="" name="price" value={formData.price} onChange={handleChange} type="text" id="price" placeholder="4M" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
             {/* Handover Date */}
             <div className="flex flex-col gap-2 mx-3">
                 <label   htmlFor="handoverDate" className="sf-medium text-sm text-[#000000]">Handover Date</label>
-                <input autoComplete="" name="handoverDate" onChange={handleChange} type="date" id="handoverDate" placeholder="June 2025" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <input autoComplete="" disabled={isLoading} name="handoverDate" value={formData.handoverDate} onChange={handleChange} type="date" id="handoverDate" placeholder="June 2025" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
             {/* Beds */}
             <div className="flex flex-col gap-2 mx-3">
                 <label   htmlFor="beds" className="sf-medium text-sm text-[#000000]">Beds</label>
-                <input autoComplete="" name="beds" value={formData.beds} onChange={handleChange} type="text" id="beds" placeholder="1,2,3,Studio" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <input autoComplete="" name="beds" disabled={isLoading} value={formData.beds} onChange={handleChange} type="text" id="beds" placeholder="1,2,3,Studio" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
-            {/*  */}
-            <div className="flex flex-col gap-2 mx-3 relative">
-                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Email</label>
-                <div onClick={()=>setOptionsProperties(!optionsProperties)} className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
-                    <span>Email</span>
-                    <span  className='absolute right-5 top-12'>{ optionsProperties ? <FaAngleUp /> : <FaAngleDown/>}</span>
-                </div>
-            { optionsProperties && <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
-                    <p className='py-1 cursor-pointer'>Dubai</p>
-                    <p className='py-1 cursor-pointer'>Dubai</p>
-                    <p className='py-1 cursor-pointer'>Dubai</p>
-                </div>}
+
+            <div className="flex cursor-pointer py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
+                <Select name='propertyType' onChange={handlePropertyType} closeMenuOnSelect={false} components={animatedComponents} isMulti options={options} />
             </div>
 
-            {/*  */}
-            <div className="flex flex-col gap-2 mx-3 relative">
-                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Email</label>
+              {/* Cities */}
+              <div className="flex flex-col gap-2 mx-3 relative">
+                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Cities</label>
                 <div onClick={()=>setOptionsCities(!optionsCities)} className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
-                    {/* <input autoComplete="email"  value={''} name="email" onChange={'handleChange'} type="email" id="email" placeholder="Enter your email" className="border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" /> */}
-                    <span>Cities</span>
+                    <span>{formData.cityName ? formData.cityName : 'Select City' }</span>
                     <span  className='absolute right-5 top-12'>{ optionsCities ? <FaAngleUp /> : <FaAngleDown/>}</span>
                 </div>
-            { optionsCities && <div className="z-30 absolute rounded-[10px] top-24 bg-white w-full border p-3">
-                    <p className='py-1 cursor-pointer'>Cities</p>
-                    <p className='py-1 cursor-pointer'>Cities</p>
-                    <p className='py-1 cursor-pointer'>Cities</p>
+            { optionsCities && <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
+                    { data && data.map((item,i)=>  <p key={i} onClick={(()=>handleCity(item.cityName,item._id))} className='py-1 cursor-pointer'>{item.cityName}</p> )  }
                 </div>}
             </div>
 
@@ -215,17 +270,35 @@ function AddProperties() {
             <div className="flex justify-center items-center">
                 <div className="flex flex-col gap-2 mx-3 w-full">
                     <label   htmlFor="googleMapLink" className="sf-medium text-sm text-[#000000]">Google Map</label>
-                    <textarea placeholder='Google Map Embed Link,' onChange={handleChange} value={formData.googleMapLink} name="googleMapLink" id="googleMapLink" cols="30" rows="6" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
+                    <textarea disabled={isLoading} placeholder='Google Map Embed Link,' onChange={handleChange} value={formData.googleMapLink} name="googleMapLink" id="googleMapLink" cols="30" rows="6" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
                 </div>
                 <div className="">
-                    <iframe ref={frameOfLocation} src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14185.324610322421!2d75.59100095716197!3d12.100691766322257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4499ba0b48f91%3A0x3e6d558a663dd7a3!2s!5e0!3m2!1sen!2sin!4v1710042486885!5m2!1sen!2sin"  className='border-none w-40 h-40 rounded-full'  allowfullscreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe ref={frameOfLocation} src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14185.324610322421!2d75.59100095716197!3d12.100691766322257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4499ba0b48f91%3A0x3e6d558a663dd7a3!2s!5e0!3m2!1sen!2sin!4v1710042486885!5m2!1sen!2sin"  className='border-none w-40 h-40 rounded-full'  allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
+            </div>
+
+             {/* Address */}
+             <div className="flex flex-col gap-2 mx-3">
+                <label htmlFor="address" className="sf-medium text-sm text-[#000000]">Address</label>
+                <textarea name="address" disabled={isLoading}  onChange={handleChange} value={formData.address} id="address" cols="30" rows="15" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
             </div>
 
             {/* Description */}
             <div className="flex flex-col gap-2 mx-3">
                 <label htmlFor="description" className="sf-medium text-sm text-[#000000]">Description</label>
-                <textarea name="description"  onChange={handleChange} value={formData.description} id="description" cols="30" rows="15" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
+                <textarea name="description" disabled={isLoading}  onChange={handleChange} value={formData.description} id="description" cols="30" rows="15" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
+            </div>
+
+            {/* Developer */}
+            <div className="flex flex-col gap-2 mx-3 relative">
+                <label   htmlFor="developerRef" className="sf-medium text-sm text-[#000000]">Developer</label>
+                <div onClick={()=>setOptionsDeveloper(!optionsDeveloper)} className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
+                    <span>{formData.developerName ? formData.developerName : 'Select Developer' }</span>
+                    <span  className='absolute right-5 top-12'>{ optionsDeveloper ? <FaAngleUp /> : <FaAngleDown/>}</span>
+                </div>
+            { optionsDeveloper && <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
+                    { developers && developers.map((item)=>  <p key={item._id} onClick={(()=>handleDevelopers(item.developerName,item._id))} className='py-1 cursor-pointer'>{item.developerName}</p> )  }
+                </div>}
             </div>
 
             {/* Facilities And Amenities */}
@@ -284,9 +357,15 @@ function AddProperties() {
                 <div className="flex gap-2  max-w-md flex-wrap">
                     {
                         smallImage.map((image,i)=>{
-                        return <img key={i} src={ image.image || PlaceHolder} alt="placeholder" className='w-20 h-20  rounded-[10px]  object-cover ' />})
+                        return (
+                            <div className="relative" key={i}>
+                                    <span onClick={()=>removeSubImage(i)} title='remove' className='cursor-pointer absolute top-2 left-1 text-xs bg-red-600  py-0 px-1 text-center rounded-full text-white'>x</span>
+                                    <img key={i} src={ image.image || PlaceHolder} alt="placeholder" className='w-20 h-20  rounded-[10px]  object-cover ' />
+                            </div>
+                        )})
                     }
                 </div>
+
                 <div onClick={uploadSmallImageButton} className="w-16 h-11 bg-[#000000] text-[#ffffff] hover:bg-[#666666] flex justify-center items-center rounded-[4px] cursor-pointer">
                     <span> + </span>
                 </div>
@@ -319,12 +398,11 @@ function AddProperties() {
                 </div>
             </div>
 
-
             {/* submit */}
 
             <div className="p-3 poppins-semibold text-lg">
               <div className="w-52 h-11 bg-[#000000] text-[#ffffff] hover:bg-[#666666] flex justify-center items-center rounded-[4px] cursor-pointer">
-                <button type='submit'>Save</button>
+                <button type='submit' disabled={isLoading}>{ isLoading ? 'Loading...' : 'Submit'}</button>
               </div>
             </div>
 

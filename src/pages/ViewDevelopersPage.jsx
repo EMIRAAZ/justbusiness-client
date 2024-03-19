@@ -1,15 +1,15 @@
 import React from 'react'
-import BlogCard from "../components/BlogCard.jsx"
 import { useDispatch, useSelector } from 'react-redux';
 import { errorToast } from '../toast';
-import { fetchBlog, setError, setLoading } from '../features/blogSlice.js';
-import { getBlogs } from '../api/index.js';
+import { setError, setLoading } from '../features/blogSlice.js';
+import { getDevelopers } from '../api/';
+import { fetchDevelopers } from '../features/developerSlice.js';
+import Profile from "../components/Profile.jsx"
 
-
-function EditBlogsPage() {
+function ViewDevelopersPage() {
 
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.blog); 
+  const { developers } = useSelector((state) => state.developer); 
   const [refresh,setRefresh] = React.useState(true);
 
   React.useEffect(()=>{
@@ -19,8 +19,8 @@ function EditBlogsPage() {
   const fetchdata =async ()=>{
     try {
       dispatch(setLoading());
-      const response = await getBlogs()
-      dispatch(fetchBlog(response));
+      const response = await getDevelopers()
+      dispatch(fetchDevelopers(response));
 
     } catch (error) {
       if (error.response && error.response.data) {
@@ -35,9 +35,9 @@ function EditBlogsPage() {
 
   return (
     <div className='grid grid-cols-3'>
-        {data.map((item)=> <BlogCard refresh={refresh} setRefresh={setRefresh} key={item._id} item={item} /> )}
+        {developers && developers.map((item)=> <Profile refresh={refresh} setRefresh={setRefresh} key={item._id} item={item} /> )}
     </div>
   )
 }
 
-export default EditBlogsPage
+export default ViewDevelopersPage

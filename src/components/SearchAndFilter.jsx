@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaAngleDown, FaSearch } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa6";
 

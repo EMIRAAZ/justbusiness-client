@@ -1,16 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { editCitiesSuccess, setError, setLoading } from '../features/citiesSlice';
+import { updateCity } from '../api';
 
 function EditCity() {
 
+    const {state} = useLocation()
+    const dispatch = useDispatch();
     // --------------------------------------------
     const uploadImage = useRef(null);
     // --------------------------------------------
 
 
     // -----------------------------------------------------
-    const [formData,setFormData] = useState({propretyHeadline:'',price:'',beds:'',googleMapLink:'',description:'',mainImgaeLink:'',videoLink:''})
+    const [formData,setFormData] = useState({cityName:'',emirateName:'',mainImgaeLink:''})
     // -----------------------------------------------------
 
     //------------------------------------------------------------------
@@ -37,24 +43,30 @@ function EditCity() {
     }
     // -------------------------------------------------
 
-    const handleSubmit = (e)=>{
-
-  
-        let data = {
-            ...formData,
-        }
-
-        console.log(data)
-        
-
-
-        e.preventDefault()
+    const handleSubmit = async(e)=>{ 
         try {
-            successToast('Submit')
-        } catch (error) {
-            errorToast('error')
-        }
+            e.preventDefault()
+            let data = { ...formData }
+            dispatch(setLoading());
+            await updateCity(data);
+            dispatch(editCitiesSuccess());
+            successToast('Updated')
+
+        }  catch (error) {
+            if (error.response && error.response.data) {
+              dispatch(setError(error.response.data.message));
+              errorToast(error.response.data.message)
+            } else {
+              dispatch(setError('An error occurred during login.'));
+              errorToast('An error occurred during login.');
+            }
+          }
     }
+
+    React.useEffect(()=>{
+        setFormData({...state})
+        
+    },[state])
    
     
 

@@ -1,27 +1,31 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
-import { addingCity } from '../api';
-import { addCitiesSuccess, setError, setLoading } from '../features/citiesSlice';
+import { addingDeveloper } from '../api';
+import { setError, setLoading } from '../features/citiesSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { addDeveloperSuccess } from '../features/developerSlice';
 
-function AddCity() {
+function AddDevelopers() {
 
     const dispatch = useDispatch();
-    const { isLoading } = useSelector((state) => state.city); 
+    const { isLoading } = useSelector((state) => state.developer); 
 
+    const[visible,setVisible] = React.useState('password')
     // --------------------------------------------
     const uploadImage = useRef(null);
     // --------------------------------------------
 
     // -----------------------------------------------------
-    const [formData,setFormData] = useState({cityName:'',emirateName:'',mainImgaeLink:''})
+    const [formData,setFormData] = useState({developerName:'',contactNumber:'',email:'',password:'',mainImgaeLink:''})
     // -----------------------------------------------------
 
     //------------------------------------------------------------------
     const uploadImageButton = ()=> uploadImage.current.click();
     // -----------------------------------------------------------------
     
+
     // -----------------------------------------------
     const hanldeUploading = (e)=>{
         const file = e.target.files
@@ -49,10 +53,10 @@ function AddCity() {
                 ...formData,
             }
             dispatch(setLoading());
-            await addingCity(data);
-            dispatch(addCitiesSuccess());
+            await addingDeveloper(data);
+            dispatch(addDeveloperSuccess());
             successToast('Successfully added')
-            setFormData({cityName:'',emirateName:'',mainImgaeLink:""})
+            setFormData({contactNumber:'',developerName:'',email:"",mainImgaeLink:"",password:""})
         }  catch (error) {
             if (error.response && error.response.data) {
               dispatch(setError(error.response.data.message));
@@ -64,21 +68,41 @@ function AddCity() {
           }
     }
    
+    
+
+
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-wrap'>
         <div className='flex-1'>
 
-            {/* City Name */}
+            {/* Developer Name */}
             <div className="flex flex-col gap-2 mx-3">
-                <label   htmlFor="cityName" className="sf-medium text-sm text-[#000000]">Proprety Headline</label>
-                <input disabled={isLoading} autoComplete="name" value={formData.cityName} name="cityName" onChange={handleChange} type="text" id="cityName" placeholder="Down Town" title='City Name' className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <label   htmlFor="developerName" className="sf-medium text-sm text-[#000000]">Proprety Headline</label>
+                <input disabled={isLoading} autoComplete="name" value={formData.developerName} name="developerName" onChange={handleChange} type="text" id="developerName" placeholder="Name" title='Developer Name' className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
-            {/* Emirate Name */}
+            {/* Emirate Mail */}
             <div className="flex flex-col gap-2 mx-3">
-                <label   htmlFor="emirateName" className="sf-medium text-sm text-[#000000]">Price (From in AED)</label>
-                <input disabled={isLoading} autoComplete="" name="emirateName" value={formData.emirateName} onChange={handleChange} type="text" id="emirateName" placeholder="Dubai" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Mail</label>
+                <input disabled={isLoading} autoComplete="mobile email" name="email" value={formData.email} onChange={handleChange} type="email" id="email" placeholder="E-Mail ID" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+            </div>
+
+            {/* Password */}
+            <div className="relative flex flex-col gap-2 mt-3 mx-3">
+                <label htmlFor="password" className="sf-medium text-sm text-[#000000]">Password</label>
+                <input disabled={isLoading} name="password" onChange={handleChange} value={FormData.password} autoComplete="current-password" type={visible} id="password" placeholder="Enter your Password" className="border border-[#E4E4E4] py-4 ps-5 pe-16 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <div className="absolute right-7   top-11">
+                    {
+                        visible === 'password' ? <FaEye size={20} onClick={()=>setVisible('text')} /> : <FaEyeSlash size={20} onClick={()=> setVisible('password')}/>
+                    }
+                </div>
+            </div>
+
+            {/* Contact Number */}
+            <div className="flex flex-col gap-2 mt-3 mx-3">
+                <label htmlFor="contactNumber" className="sf-medium text-sm text-[#000000]">Contact Number</label>
+                <input disabled={isLoading} autoComplete="cc-number" name="contactNumber" value={formData.contactNumber} onChange={handleChange} type="number" id="contactNumber" placeholder="Contact Number" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
         </div>
 
@@ -88,7 +112,7 @@ function AddCity() {
             <h1 className='mb-3 text-4xl sf-medium'>Media</h1>
             <h2 className='sf-medium text-sm mb-3'>Main Image</h2>
             <div className="flex gap-3 items-center">
-                <div className="w-80 h-64  rounded-[20px] overflow-hidden">
+                <div className="w-14 h-14  rounded-full overflow-hidden">
                     <img src={ formData.mainImgaeLink || PlaceHolder} alt="placeholder" className='w-full h-full object-cover ' />
                 </div>
                 <div onClick={uploadImageButton} className="w-48 h-11 bg-[#000000] text-[#ffffff] hover:bg-[#666666] flex justify-center items-center rounded-[4px] cursor-pointer">
@@ -96,6 +120,7 @@ function AddCity() {
                 </div>
                 <input disabled={isLoading} ref={uploadImage} type="file" accept="image/jpg, image/jpeg, image/png" onChange={hanldeUploading} className='hidden' />
             </div>
+
 
             {/* submit */}
 
@@ -112,4 +137,4 @@ function AddCity() {
   )
 }
 
-export default AddCity
+export default AddDevelopers

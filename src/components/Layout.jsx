@@ -1,4 +1,3 @@
-import React from "react";
 import LefAdminPanel from "./LefAdminPanel";
 import { Outlet } from "react-router-dom";
 

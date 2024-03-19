@@ -1,5 +1,4 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { 
   LoginPage,
   AdminLayout,
@@ -18,16 +17,20 @@ import {
   EditBlogPage,
   AddBannerPage,
   EditBannerPage,
-  ViewBannerPage,
   ManageBannerPage,
-  EditBannersPage
+  EditBannersPage,
+  AddDeveloperPage,
+  ViewDevelopersPage,
+  EditDeveloperPage
 } from "./Routes";
 import { Toaster } from "react-hot-toast";
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/admin" />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin" element={<AdminLayout/>}>
           <Route path="dashboard" element={<AdminDashBoard/>}/>
@@ -45,9 +48,11 @@ function App() {
           <Route path="edit-blog/:id" element={<EditBlogPage/>}/>
           <Route path="add-banner" element={<AddBannerPage/>}/>
           <Route path="manage-banner" element={<ManageBannerPage/>}/>
-          <Route path="edit-banner" element={<EditBannerPage/>}/>
+          <Route path="edit-banner/:id" element={<EditBannerPage/>}/>
           <Route path="edit-banners" element={<EditBannersPage/>}/>
-          <Route path="view-banner" element={<ViewBannerPage/>}/>
+          <Route path="edit-developer/:id" element={<EditDeveloperPage/>}/>
+          <Route path="add-developer" element={<AddDeveloperPage/>}/>
+          <Route path="developers" element={<ViewDevelopersPage/>}/>
         </Route>
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />

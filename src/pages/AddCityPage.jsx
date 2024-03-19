@@ -1,4 +1,3 @@
-import React from 'react'
 import AddCity from "../components/AddCityPage"
 
 function AddCityPage() {

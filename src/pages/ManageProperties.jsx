@@ -1,4 +1,3 @@
-import React from 'react'
 import ManagePropertiesAndCities from "../components/ManagePropertiesAndCities"
 
 function ManageProperties() {

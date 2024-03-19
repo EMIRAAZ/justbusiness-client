@@ -15,10 +15,11 @@ import EditBlogsPage from "./pages/EditBlogsPage"
 import EditBlogPage from "./pages/EditBlogPage"
 import AddBannerPage from "./pages/AddBannerPage"
 import EditBannerPage from "./pages/EditBannerPage"
-import ViewBannerPage from "./pages/ViewBannerPage"
 import ManageBannerPage from "./pages/ManageBannerPage"
-import EditBannersPage from "./pages/EditBannersPage.jsx"
- 
+import EditBannersPage from "./pages/EditBannersPage"
+import EditDeveloperPage from "./pages/EditDeveloperPage"
+import ViewDevelopersPage from "./pages/ViewDevelopersPage"
+import AddDeveloperPage from "./pages/AddDeveloperPage"
 
 export {
     LoginPage,
@@ -39,6 +40,8 @@ export {
     AddBannerPage,
     EditBannerPage,
     EditBannersPage,
-    ViewBannerPage,
     ManageBannerPage,
+    EditDeveloperPage,
+    AddDeveloperPage,
+    ViewDevelopersPage
 }

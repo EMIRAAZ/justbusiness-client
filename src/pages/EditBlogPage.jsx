@@ -1,4 +1,3 @@
-import React from 'react'
 import EditBlog from "../components/EditBlogPage.jsx"
 
 function EditBlogPage() {

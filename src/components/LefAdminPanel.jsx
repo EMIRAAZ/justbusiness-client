@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ImageSVG from "../assets/logo/PropertysellerBlackLogo.svg"
 
 
@@ -9,9 +9,17 @@ import { MdLogout } from "react-icons/md";
 import { FaBlogger, FaHome, FaRegBuilding, FaUsers } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../features/authSlice';
 // --------------------REACT-ICONS---------------------------------//
 
 function LefAdminPanel() {
+
+    const { user } = useSelector((state) => state.auth); 
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+
+    
 
     //-------------------------------STATES-----------------------//
     const [style,setStyle] = React.useState('')
@@ -29,6 +37,13 @@ function LefAdminPanel() {
     }
     //-------------------------------FUNCTIONS-----------------------//
 
+    const handleLogout = ()=> {
+        dispatch(logout());
+        navigate('/login');
+    }
+    
+
+
   return (
     <>
     <div className={`${style} z-50 fixed md:overflow-clip overflow-scroll top-1 left-0 ease-out duration-1000 max-w-60 h-[99vh] rounded-e-[50px] bg-[#000000] text-white`}>
@@ -39,9 +54,9 @@ function LefAdminPanel() {
             <div className="mt-12  ">
                 <FaRegCircleUser size={50} />
             </div>
-            <h1 className='text-center text-2xl pb-1.5'>Admin</h1>
+            <h1 className='text-center text-2xl pb-1.5'>{user?.name || 'Admin'}</h1>
             <h2 className='text-center text-sm pb-1.5'>Edit Profile</h2>
-            <h3 className=' flex justify-center text-sm items-center gap-2'>Logout <MdLogout/></h3>
+            <h3 className=' flex justify-center text-sm items-center gap-2' onClick={handleLogout}>Logout <MdLogout/></h3>
         </div> 
         <div className="flex justify-center text-[#ffffff] sf-medium pt-16 pb-12 px-4 ">
             <ul>
@@ -55,14 +70,14 @@ function LefAdminPanel() {
                     <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaRegBuilding/> Manage Properties</li>
                 </Link>
                 <Link to={'/admin/manage-blog'}>
-                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaBlogger/> Blog</li>
+                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaBlogger/> Blog / Developers</li>
                 </Link>
                 <Link to={'/admin/manage-banner'}>
                     <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaBlogger/> Manage Banner</li>
                 </Link>
             </ul>
         </div>
-        <div onClick={closeSidebar} className="absolute right-6 top-4 cursor-pointer border rounded-3xl p-1 " title='close'>
+        <div onClick={closeSidebar} className="absolute  lg:hidden right-6 top-4 cursor-pointer border rounded-3xl p-1 " title='close'>
             <IoCloseOutline   size={30} />
         </div>
     </div>

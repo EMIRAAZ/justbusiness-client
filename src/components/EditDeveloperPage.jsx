@@ -3,21 +3,21 @@ import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { editBlogSuccess, setError, setLoading } from '../features/blogSlice';
-import { updateBlog } from '../api';
+import {  editDeveloperSuccess, setError, setLoading } from '../features/developerSlice';
+import {  updateDeveloper } from '../api';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-function EditBlogPage() {
+function EditDeveloperPage() {
 
     const {state} = useLocation()
     const dispatch = useDispatch();
-
     // --------------------------------------------
     const uploadImage = useRef(null);
     // --------------------------------------------
 
 
     // -----------------------------------------------------
-    const [formData,setFormData] = useState({blogTitle:'',blogBody:'',mainImgaeLink:''})
+    const [formData,setFormData] = useState({contactNumber:'',developerName:'',mainImgaeLink:'',email:'',password:""})
     // -----------------------------------------------------
 
     //------------------------------------------------------------------
@@ -44,6 +44,8 @@ function EditBlogPage() {
     }
     // -------------------------------------------------
 
+    const[visible,setVisible] = React.useState('password')
+
     const handleSubmit = async(e)=>{ 
         try {
             e.preventDefault()
@@ -51,8 +53,8 @@ function EditBlogPage() {
                 ...formData,
             }
             dispatch(setLoading());
-            await updateBlog(data);
-            dispatch(editBlogSuccess());
+            await updateDeveloper(data);
+            dispatch(editDeveloperSuccess());
             successToast('Updated')
 
         }  catch (error) {
@@ -79,36 +81,50 @@ function EditBlogPage() {
     <form onSubmit={handleSubmit} className='flex flex-wrap'>
         <div className='flex-1'>
 
-            {/* Blog title */}
+             {/* Developer Name */}
+             <div className="flex flex-col gap-2 mx-3">
+                <label   htmlFor="developerName" className="sf-medium text-sm text-[#000000]">Proprety Headline</label>
+                <input autoComplete="name" value={formData.developerName} name="developerName" onChange={handleChange} type="text" id="developerName" placeholder="Name" title='Developer Name' className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+            </div>
+
+            {/* Emirate Mail */}
             <div className="flex flex-col gap-2 mx-3">
-                <label   htmlFor="blogTitle" className="sf-medium text-sm text-[#000000]">Blog Title</label>
-                <input autoComplete="" value={formData.blogTitle} name="blogTitle" onChange={handleChange} type="text" id="blogTitle" placeholder="Discover the Essence of Luxury Living: Your Guide to Dubai Real Estate" title='Blog title' className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Mail</label>
+                <input autoComplete="mobile email" name="email" value={formData.email} onChange={handleChange} type="email" id="email" placeholder="E-Mail ID" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
-            {/* Blog Body */}
-            <div className="flex flex-col gap-2 mx-3 mt-3">
-                <label   htmlFor="blogBody" className="sf-medium text-sm text-[#000000]">Price (From in AED)</label>
-                <textarea name="blogBody"  onChange={handleChange} value={formData.blogBody} id="blogBody" cols="30" rows="20" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none"
-                placeholder='Wake up to the beauty of lush landscapes and elite golf courses, with the majestic Burj Khalifa and Dubai’s skyline painting the perfect morning scene at Parkside Hills. This premier living destination encapsulates the ideal blend of nature’s tranquility and the pulse of city life, fostering a community that values both unity and privacy. With a selection of 1-3 bedroom apartments that align with the luxurious lifestyle of Dubai Hills Estate, Parkside Hills apartments epitomizes smart living infused with elegance. Situated in the picturesque Dubai Hills Estate, Parkside Hills is synonymous with refined living, integrating innovative design with classic sophistication to suit a modern lifestyle. At its core, the community thrives on a plethora of amenities, ranging from top-tier health and education services to leisure, wellness, and shopping conveniences, all within easy reach, ensuring a life marked by luxury and convenience.
-                Investors and future residents looking at Parkside Hills apartments for sale near Dubai are presented with an enticing investment opportunity. With Dubai Hills Estate’s high demand and Emaar’s reputation for quality developments, Parkside Hills offers potential for substantial ROI. Its coveted location and Emaar’s renowned quality promise both capital appreciation and lucrative rental yields for years to come.                         '
-                ></textarea>
-
+            {/* Password */}
+            <div className="relative flex flex-col gap-2 mt-3 mx-3">
+                <label htmlFor="password" className="sf-medium text-sm text-[#000000]">Password</label>
+                <input name="password" onChange={handleChange} value={FormData.password} autoComplete="current-password" type={visible} id="password" placeholder="Enter your Password" className="border border-[#E4E4E4] py-4 ps-5 pe-16 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <div className="absolute right-7   top-11">
+                    {
+                        visible === 'password' ? <FaEye size={20} onClick={()=>setVisible('text')} /> : <FaEyeSlash size={20} onClick={()=> setVisible('password')}/>
+                    }
+                </div>
             </div>
+
+            {/* Contact Number */}
+            <div className="flex flex-col gap-2 mt-3 mx-3">
+                <label htmlFor="contactNumber" className="sf-medium text-sm text-[#000000]">Contact Number</label>
+                <input autoComplete="cc-number" name="contactNumber" value={formData.contactNumber} onChange={handleChange} type="number" id="contactNumber" placeholder="Contact Number" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+            </div>
+
         </div>
 
         <div className="px-4 flex-1">
 
-            {/*  Main image */}
-            <h1 className='mb-3 text-4xl sf-medium'>Media</h1>
+           {/*  Main image */}
+           <h1 className='mb-3 text-4xl sf-medium'>Media</h1>
             <h2 className='sf-medium text-sm mb-3'>Main Image</h2>
             <div className="flex gap-3 items-center">
-                <div className="w-80 h-64  rounded-[20px] overflow-hidden">
+                <div className="w-14 h-14  rounded-full overflow-hidden">
                     <img src={ formData.mainImgaeLink || PlaceHolder} alt="placeholder" className='w-full h-full object-cover ' />
                 </div>
                 <div onClick={uploadImageButton} className="w-48 h-11 bg-[#000000] text-[#ffffff] hover:bg-[#666666] flex justify-center items-center rounded-[4px] cursor-pointer">
                     <span>Select Image </span>
                 </div>
-                <input ref={uploadImage} type="file" accept="image/jpg, image/jpeg, image/png" onChange={hanldeUploading} className='hidden' />
+                <input  ref={uploadImage} type="file" accept="image/jpg, image/jpeg, image/png" onChange={hanldeUploading} className='hidden' />
             </div>
 
 
@@ -127,4 +143,4 @@ function EditBlogPage() {
   )
 }
 
-export default EditBlogPage
+export default EditDeveloperPage

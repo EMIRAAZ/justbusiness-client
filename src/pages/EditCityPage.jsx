@@ -1,4 +1,3 @@
-import React from 'react'
 import EditCity from "../components/EditCity"
 
 function EditCityPage() {

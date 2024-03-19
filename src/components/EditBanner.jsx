@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { editBannerSuccess, setLoading } from '../features/bannerSlice';
+import { updateBanner } from '../api';
+import { setError } from '../features/propertiesSlice';
 
 function EditBanner() {
 
+    const {state} = useLocation()
+    const dispatch = useDispatch();
     // --------------------------------------------
     const uploadImage = useRef(null);
     // --------------------------------------------
 
     // -----------------------------------------------------
-    const [formData,setFormData] = useState({propretyHeadline:'',price:'',beds:'',googleMapLink:'',description:'',mainImgaeLink:'',videoLink:''})
+    const [formData,setFormData] = useState({bannerHeadline:'',bannerSubtext:'',buttonText:'',buttonLink:'',mainImgaeLink:''})
     // -----------------------------------------------------
 
     //------------------------------------------------------------------
@@ -34,29 +41,38 @@ function EditBanner() {
     const handleChange = (e)=>{
         setFormData({...formData,[e.target.name]:e.target.value})
     }
+
+    
   
   
     // -------------------------------------------------
 
-    const handleSubmit = (e)=>{
-
-  
-        let data = {
-            ...formData,
-        }
-
-        console.log(data)
-        
-
-
-        e.preventDefault()
+    const handleSubmit = async(e)=>{ 
         try {
-            successToast('Submit')
-        } catch (error) {
-            errorToast('error')
-        }
+            e.preventDefault()
+            let data = {
+                ...formData,
+            }
+            dispatch(setLoading());
+            await updateBanner(data);
+            dispatch(editBannerSuccess());
+            successToast('Updated')
+
+        }  catch (error) {
+            if (error.response && error.response.data) {
+              dispatch(setError(error.response.data.message));
+              errorToast(error.response.data.message)
+            } else {
+              dispatch(setError('An error occurred during login.'));
+              errorToast('An error occurred during login.');
+            }
+          }
     }
    
+
+    React.useEffect(()=>{
+        setFormData({...state})
+    },[state])
     
 
 
@@ -85,7 +101,7 @@ function EditBanner() {
 
             {/* Button Link */}
             <div className="flex flex-col gap-2 mx-3">
-                <label htmlFor="buttonLink" className="sf-medium text-sm text-[#000000]">Button Link</label>
+                <label htmlFor="buttonLink" className="sf-medium text-sm text-[rgb(0,0,0)]">Button Link</label>
                 <input autoComplete="" name="buttonLink" value={formData.buttonLink} onChange={handleChange} type="url" id="buttonLink" placeholder="View All Propreties" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 

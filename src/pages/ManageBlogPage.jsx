@@ -1,4 +1,3 @@
-import React from 'react'
 import ManageBlog from "../components/ManageBlog.jsx"
 
 function ManageBlogPage() {

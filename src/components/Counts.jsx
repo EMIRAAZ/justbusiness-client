@@ -1,4 +1,3 @@
-import React from 'react'
 import RecentVector from "../assets/icons/RecentVector.svg"
 import FinshedVector from "../assets/icons/FnishedVector.svg"
 

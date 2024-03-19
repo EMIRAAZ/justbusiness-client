@@ -1,4 +1,3 @@
-import React from 'react'
 import Counts from "../components/Counts"
 import SearchAndFilter from "../components/SearchAndFilter"
 import RecentEnquiries from '../components/RecentEnquiries'

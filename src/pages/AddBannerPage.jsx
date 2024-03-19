@@ -1,6 +1,4 @@
-import React from 'react'
 import AddBanner from "../components/AddBanner.jsx"
-
 
 function AddBannerPage() {
   return (

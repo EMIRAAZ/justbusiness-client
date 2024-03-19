@@ -1,4 +1,3 @@
-import React from "react";
 import AdminAddProperties from "../components/AddProperties";
 
 function AddProperties() {

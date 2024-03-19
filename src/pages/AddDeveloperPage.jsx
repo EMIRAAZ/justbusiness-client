@@ -1,18 +1,18 @@
-import AddBlog from "../components/AddBlog";
+import AddDeveloper from "../components/AddDeveloper"
 
-function AddBlogPage() {
+function AddDeveloperPage() {
   return (
     <div>
       <div className="">
         <div className="sticky top-0 bg-white flex justify-between py-6">
-          <h1 className="sf-medium text-5xl">Add Blog</h1>
+          <h1 className="sf-medium text-5xl">Add Developers</h1>
         </div>
         <div className=" h-[83vh] overflow-scroll">
-          <AddBlog />
+          <AddDeveloper />
         </div>
       </div>
     </div>
   );
 }
 
-export default AddBlogPage;
+export default AddDeveloperPage;

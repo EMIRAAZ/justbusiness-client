@@ -1,41 +1,59 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { IoMdAdd, IoMdRemove } from 'react-icons/io';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { editPropertySuccess, setError, setLoading } from '../features/propertiesSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCities, getDevelopers, updateProperties } from '../api';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { fetchCities } from '../features/citiesSlice';
+import { fetchDevelopers } from '../features/developerSlice';
 
 function EditProperty() {
 
+    const {state} = useLocation()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const animatedComponents = makeAnimated();
+
+    const { data } = useSelector((state) => state.city); 
+    const { developers } = useSelector((state) => state.developer); 
+
+
     // --------------------------------------------
-    const uploadImage = useRef(null);
-    const uploadSmallImage = useRef(null);
-    const frameOfLocation = useRef(null);
-    const frameOfVideo = useRef(null);
+    const uploadImage = React.useRef(null);
+    const uploadSmallImage = React.useRef(null);
+    const frameOfLocation = React.useRef(null);
+    const frameOfVideo = React.useRef(null);
     // --------------------------------------------
 
 
 
     // ------------------------------------------
-    const [optionsProperties,setOptionsProperties] = useState(false)
-    const [optionsCities,setOptionsCities] = useState(false)
+    const [optionsCities,setOptionsCities] = React.useState(false)
+    const [optionsDeveloper,setOptionsDeveloper] = React.useState(false)
+
     // ------------------------------------------
 
 
     // ------------------------------------------------------
-    const [dynamicFacilitiesForm,setDynamicFacilitiesForm] = useState([{value:''}])
-    const [dynamicAreasNearBy,setDynamicAreasNearBy] = useState([{value:''}])
-    const [dynamicPaymentPlan,setDynamicPaymentPlan] = useState([{value:''}])
+    const [dynamicFacilitiesForm,setDynamicFacilitiesForm] = React.useState([{value:''}])
+    const [dynamicAreasNearBy,setDynamicAreasNearBy] = React.useState([{value:''}])
+    const [dynamicPaymentPlan,setDynamicPaymentPlan] = React.useState([{value:''}])
     // ------------------------------------------------------
 
 
 
     // ---------------------------------------------------
-    const [smallImage,setSmallImage] = useState([])
+    const [smallImage,setSmallImage] = React.useState([])
     // ---------------------------------------------------
 
 
     // -----------------------------------------------------
-    const [formData,setFormData] = useState({propretyHeadline:'',price:'',beds:'',googleMapLink:'',description:'',mainImgaeLink:'',videoLink:''})
+    const [formData,setFormData] = React.useState({propretyHeadline:'',price:'',beds:'',googleMapLink:'',description:'',handoverDate:'',mainImgaeLink:'',videoLink:'',address:'',propertyType:[]})
     // -----------------------------------------------------
 
 
@@ -50,6 +68,11 @@ function EditProperty() {
     const uploadSmallImageButton = ()=> uploadSmallImage.current.click();
     // -----------------------------------------------------------------
     
+    const options = [
+        { value: 'apartment', label: 'Apartment' },
+        { value: 'townhouse', label: 'Townhouse' },
+        { value: 'penthouse', label: 'Penthouse' }
+      ]
 
     // -----------------------------------------------
     const hanldeUploading = (e)=>{
@@ -128,30 +151,83 @@ function EditProperty() {
       };
     // -------------------------------------------------
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
 
   
         let data = {
             ...formData,
             facilities:[...dynamicFacilitiesForm],
             paymentPlan:[...dynamicPaymentPlan],
-            areasNearBy:[...dynamicAreasNearBy]
+            areasNearBy:[...dynamicAreasNearBy],
+            smallImage:smallImage
+
         }
-
-        console.log(data)
-        
-
-
         e.preventDefault()
         try {
-            successToast('Submit')
+            dispatch(setLoading());
+            await updateProperties(data);
+            dispatch(editPropertySuccess());
+            successToast('Successfully Updated')
+            navigate('/admin/edit-properties')
         } catch (error) {
-            errorToast('error')
+            if (error.response && error.response.data) {
+                dispatch(setError(error.response.data.message));
+                errorToast(error.response.data.message)
+              } else {
+                dispatch(setError('An error occurred during login.'));
+                errorToast('An error occurred during login.');
+              }
         }
+          
+    }
+
+    const handleCity = (name,Id)=>{
+        setOptionsCities(!optionsCities)
+        setFormData({...formData,cityRef:Id,cityName:name})   
     }
    
-    
+    const handlePropertyType = (value)=>{
+        const result = value.map((item)=> item.value )
+        setFormData({...formData,propertyType:result})   
+    }
 
+
+    const fetchdata =async ()=>{
+        try {
+          const response_cities = await getCities()
+          dispatch(fetchCities(response_cities));
+          const response_developers = await getDevelopers()
+          dispatch(fetchDevelopers(response_developers));
+        } catch (error) {
+          if (error.response && error.response.data) {
+            dispatch(setError(error.response.data.message));
+            errorToast(error.response.data.message)
+          } else {
+            dispatch(setError('An error occurred during login.'));
+            errorToast('An error occurred during login.');
+          }
+        }
+    }
+
+    const handleDevelopers = (name,Id)=>{
+        setOptionsDeveloper(!optionsDeveloper)
+        setFormData({...formData,developerRef:Id,developerName:name})   
+    }
+
+    React.useEffect(()=>{
+        setFormData({...state})
+        setDynamicAreasNearBy([...state.areasNearBy]);
+        setDynamicPaymentPlan([...state.paymentPlan]);
+        setDynamicFacilitiesForm([...state.facilities])
+        setSmallImage([...state.smallImage]);
+        fetchdata();
+    },[state])
+
+    const removeSubImage = (indexOf)=>{
+        const result = smallImage.filter((i,index)=>index != indexOf)
+        setSmallImage(result)
+     }
+ 
 
 
   return (
@@ -173,7 +249,7 @@ function EditProperty() {
             {/* Handover Date */}
             <div className="flex flex-col gap-2 mx-3">
                 <label   htmlFor="handoverDate" className="sf-medium text-sm text-[#000000]">Handover Date</label>
-                <input autoComplete="" name="handoverDate" onChange={handleChange} type="date" id="handoverDate" placeholder="June 2025" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <input autoComplete="" defaultValue={formData.handoverDate} name="handoverDate" onChange={handleChange} type="date" id="handoverDate" placeholder="June 2025" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
             {/* Beds */}
@@ -182,34 +258,23 @@ function EditProperty() {
                 <input autoComplete="" name="beds" value={formData.beds} onChange={handleChange} type="text" id="beds" placeholder="1,2,3,Studio" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
-            {/*  */}
-            <div className="flex flex-col gap-2 mx-3 relative">
-                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Email</label>
-                <div onClick={()=>setOptionsProperties(!optionsProperties)} className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
-                    <span>Email</span>
-                    <span  className='absolute right-5 top-12'>{ optionsProperties ? <FaAngleUp /> : <FaAngleDown/>}</span>
-                </div>
-            { optionsProperties && <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
-                    <p className='py-1 cursor-pointer'>Dubai</p>
-                    <p className='py-1 cursor-pointer'>Dubai</p>
-                    <p className='py-1 cursor-pointer'>Dubai</p>
-                </div>}
+            {/* Property Type */}
+            <div className="flex cursor-pointer py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
+                <Select name='propertyType' onChange={handlePropertyType} closeMenuOnSelect={false} components={animatedComponents} isMulti options={options} />
             </div>
 
-            {/*  */}
+            {/* Cities */}
             <div className="flex flex-col gap-2 mx-3 relative">
-                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Email</label>
+                <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Cities</label>
                 <div onClick={()=>setOptionsCities(!optionsCities)} className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
-                    {/* <input autoComplete="email"  value={''} name="email" onChange={'handleChange'} type="email" id="email" placeholder="Enter your email" className="border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" /> */}
-                    <span>Cities</span>
-                    <span  className='absolute right-5 top-12'>{ optionsCities ? <FaAngleUp /> : <FaAngleDown/>}</span>
+                    <span>{formData.cityName ? formData.cityName : 'Select City' }</span>
+                     <span  className='absolute right-5 top-12'>{ optionsCities ? <FaAngleUp /> : <FaAngleDown/>}</span>
                 </div>
-            { optionsCities && <div className="z-30 absolute rounded-[10px] top-24 bg-white w-full border p-3">
-                    <p className='py-1 cursor-pointer'>Cities</p>
-                    <p className='py-1 cursor-pointer'>Cities</p>
-                    <p className='py-1 cursor-pointer'>Cities</p>
+                    { optionsCities && <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
+                    { data && data.map((item,i)=>  <p key={i} onClick={(()=>handleCity(item.cityName,item._id))} className='py-1 cursor-pointer'>{item.cityName}</p> )  }
                 </div>}
-            </div>
+            </div> 
+
 
             {/* Google Map */}
             <div className="flex justify-center items-center">
@@ -222,10 +287,28 @@ function EditProperty() {
                 </div>
             </div>
 
+              {/* Address */}
+              <div className="flex flex-col gap-2 mx-3">
+                <label htmlFor="address" className="sf-medium text-sm text-[#000000]">Address</label>
+                <textarea name="address" disabled={'isLoading'}  onChange={handleChange} value={formData.address} id="address" cols="30" rows="15" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
+            </div>
+
             {/* Description */}
             <div className="flex flex-col gap-2 mx-3">
                 <label htmlFor="description" className="sf-medium text-sm text-[#000000]">Description</label>
                 <textarea name="description"  onChange={handleChange} value={formData.description} id="description" cols="30" rows="15" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" ></textarea>
+            </div>
+
+             {/* Developer */}
+             <div className="flex flex-col gap-2 mx-3 relative">
+                <label   htmlFor="developerRef" className="sf-medium text-sm text-[#000000]">Developer</label>
+                <div onClick={()=>setOptionsDeveloper(!optionsDeveloper)} className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none">
+                    <span>{formData.developerName ? formData.developerName : 'Select Developer' }</span>
+                    <span  className='absolute right-5 top-12'>{ optionsDeveloper ? <FaAngleUp /> : <FaAngleDown/>}</span>
+                </div>
+            { optionsDeveloper && <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
+                    { developers && developers.map((item)=>  <p key={item._id} onClick={(()=>handleDevelopers(item.developerName,item._id))} className='py-1 cursor-pointer'>{item.developerName}</p> )  }
+                </div>}
             </div>
 
             {/* Facilities And Amenities */}
@@ -284,8 +367,14 @@ function EditProperty() {
                 <div className="flex gap-2  max-w-md flex-wrap">
                     {
                         smallImage.map((image,i)=>{
-                        return <img key={i} src={ image.image || PlaceHolder} alt="placeholder" className='w-20 h-20  rounded-[10px]  object-cover ' />})
+                        return (
+                            <div className="relative" key={i}>
+                                <span onClick={()=>removeSubImage(i)} title='remove' className='cursor-pointer absolute top-2 left-1 text-xs bg-red-600  py-0 px-1 text-center rounded-full text-white'>x</span>
+                                <img key={i} src={ image.image || PlaceHolder} alt="placeholder" className='w-20 h-20  rounded-[10px]  object-cover ' />
+                            </div>
+                        )})
                     }
+                     
                 </div>
                 <div onClick={uploadSmallImageButton} className="w-16 h-11 bg-[#000000] text-[#ffffff] hover:bg-[#666666] flex justify-center items-center rounded-[4px] cursor-pointer">
                     <span> + </span>
