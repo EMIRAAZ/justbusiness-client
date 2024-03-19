@@ -30,8 +30,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/admin" />} />
+        {/* <Route path="/" element={<Navigate to="/admin" />} /> */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/admin" element={<AdminLayout/>}>
           <Route path="dashboard" element={<AdminDashBoard/>}/>
           <Route path="enquiries" element={<AdminEnquiries/>}/>
