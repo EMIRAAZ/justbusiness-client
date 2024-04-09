@@ -18,7 +18,7 @@ app.get('*.js', (req, res, next) => {
 });
 
 // Handle all routes and serve the main index.html
-app.get('/admin', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(join(__dirname, 'dist', 'index.html'));
 });
 

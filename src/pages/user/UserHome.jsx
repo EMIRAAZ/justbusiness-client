@@ -80,11 +80,7 @@ function UserHome() {
         setName('')
         setNumber('')
     }  catch (error) {
-        if (error.response && error.response.data) {
-          errorToast(error.response.data.message)
-        } else {
-          errorToast('An error occurred during login.');
-        }
+        console.log(error.message);
       }
 }
   return (
