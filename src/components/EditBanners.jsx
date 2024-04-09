@@ -21,7 +21,8 @@ function EditBanners() {
   const fetchdata =async ()=>{
     try {
       dispatch(setLoading());
-      const response = await getBanners()
+      const response = await
+       getBanners()
       dispatch(fetchBanner(response));
 
     } catch (error) {
@@ -71,7 +72,7 @@ function EditBanners() {
                                     {item.bannerSubtext.length > 108 ? item.bannerSubtext.slice(0,108) + '...' : item.bannerHeadline}
                                 </p>
                                 <button onClick={()=>navigate(`/admin/${item.buttonLink}`)} className='text-[#000000] py-3 px-5 bg-[#ffffff] rounded-[10px] poppins-semibold text-xs'>
-                                {item.bannerSubtext.length > 19 ? item.bannerSubtext.slice(0,19) + '...' : item.bannerSubtext}
+                                {item.buttonText.length > 19 ? item.buttonText.slice(0,19) + '...' : item.buttonText}
                                 </button>
                             </div>
                             <div className="flex-[45%] relative">

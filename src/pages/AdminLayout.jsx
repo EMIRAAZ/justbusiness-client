@@ -11,13 +11,13 @@ function AdminLayout() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate('/admin-login');
     }
   }, [isAuthenticated, navigate]);
 
   return (
     <div className=''>
-        { isAuthenticated ? <Layout/> : navigate('/login')}
+        { isAuthenticated ? <Layout/> : navigate('/admin-login')}
     </div>
   )
 }

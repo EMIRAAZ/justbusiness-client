@@ -35,18 +35,18 @@ function Profile({ refresh, setRefresh, item }) {
 
   return (
     <div>
-      <div className="flex items-center h-screen w-full justify-center">
+      <div className="flex items-center h-[350px] w-full justify-center">
         <div className="max-w-xs w-[300px]">
           <div className="bg-white shadow-xl rounded-lg py-3">
             <div className="photo-wrapper p-2">
               <img
-                className="w-32 h-32 rounded-full mx-auto"
+                className="w-32 h-32 rounded-full object-cover mx-auto"
                 src={item.mainImgaeLink || Placholder}
                 alt={item.developerName}
               />
             </div>
-            <div className="p-2 sf-normal">
-              <h3 className="text-center sf-normal text-sm text-[#000000] leading-8">
+            <div className="p-2 sf-normal font-extralight">
+              <h3 className="text-center sf-normal font-extralight text-sm text-[#000000] leading-8">
                 {item.developerName}
               </h3>
               <table className="text-xs my-3">

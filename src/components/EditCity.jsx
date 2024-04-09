@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
 import { errorToast, successToast } from '../toast';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editCitiesSuccess, setError, setLoading } from '../features/citiesSlice';
 import { updateCity } from '../api';
@@ -10,6 +10,7 @@ function EditCity() {
 
     const {state} = useLocation()
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     // --------------------------------------------
     const uploadImage = useRef(null);
     // --------------------------------------------
@@ -51,6 +52,7 @@ function EditCity() {
             await updateCity(data);
             dispatch(editCitiesSuccess());
             successToast('Updated')
+            navigate('/admin/edit-cities')
 
         }  catch (error) {
             if (error.response && error.response.data) {
@@ -78,22 +80,22 @@ function EditCity() {
 
             {/* City Name */}
             <div className="flex flex-col gap-2 mx-3">
-                <label   htmlFor="cityName" className="sf-medium text-sm text-[#000000]">City Name</label>
-                <input autoComplete="name" value={formData.cityName} name="cityName" onChange={handleChange} type="text" id="cityName" placeholder="Down Town" title='City Name' className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <label   htmlFor="cityName" className="sf-medium font-medium text-sm text-[#000000]">City Name</label>
+                <input autoComplete="name" value={formData.cityName} name="cityName" onChange={handleChange} type="text" id="cityName" placeholder="Down Town" title='City Name' className="border border-[#E4E4E4] font-extralight py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
 
             {/* Emirate Name */}
             <div className="flex flex-col gap-2 mx-3">
-                <label   htmlFor="emirateName" className="sf-medium text-sm text-[#000000]">Emirate Name</label>
-                <input autoComplete="" name="emirateName" value={formData.emirateName} onChange={handleChange} type="text" id="emirateName" placeholder="Dubai" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+                <label   htmlFor="emirateName" className="sf-medium font-medium text-sm text-[#000000]">Emirate Name</label>
+                <input autoComplete="" name="emirateName" value={formData.emirateName} onChange={handleChange} type="text" id="emirateName" placeholder="Dubai" className="border border-[#E4E4E4] font-extralight py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
             </div>
         </div>
 
         <div className="px-4 flex-1">
 
             {/*  Main image */}
-            <h1 className='mb-3 text-4xl sf-medium'>Media</h1>
-            <h2 className='sf-medium text-sm mb-3'>Main Image</h2>
+            <h1 className='mb-3 text-4xl sf-medium font-medium'>Media</h1>
+            <h2 className='sf-medium font-medium text-sm mb-3'>Main Image</h2>
             <div className="flex gap-3 items-center">
                 <div className="w-80 h-64  rounded-[20px] overflow-hidden">
                     <img src={ formData.mainImgaeLink || PlaceHolder} alt="placeholder" className='w-full h-full object-cover ' />

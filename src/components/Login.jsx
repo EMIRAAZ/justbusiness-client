@@ -46,16 +46,16 @@ function Login() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-2 md:mx-0">
-      <div className="sf-medium text-center mb-10">
+      <div className="sf-medium font-medium text-center mb-10">
         <h1 className="text-[#000000] text-5xl ">Welcome Back Admin</h1>
         <p className=" text-sm text-[#666666] mt-1">Enter your credentials to access Admin Panel</p>
       </div>
       <div className="flex flex-col gap-2 mx-3">
-        <label   htmlFor="email" className="sf-medium text-sm text-[#000000]">Email</label>
-        <input disabled={isLoading} autoComplete="email" name="email" onChange={handleChange} value={formdata.email} type="email" id="email" placeholder="Enter your email" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
+        <label   htmlFor="email" className="sf-medium font-medium text-sm text-[#000000]">Email</label>
+        <input disabled={isLoading} autoComplete="email" name="email" onChange={handleChange} value={formdata.email} type="email" id="email" placeholder="Enter your email" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] font-extralight sf-normal text-sm text-[#666666]  outline-none" />
       </div>
       <div className="relative flex flex-col gap-2 mt-3 mx-3">
-        <label htmlFor="password" className="sf-medium text-sm text-[#000000]">Password</label>
+        <label htmlFor="password" className="sf-medium font-medium text-sm text-[#000000]">Password</label>
         <input disabled={isLoading} name="password" onChange={handleChange} value={formdata.password} autoComplete="current-password" type={visible} id="password" placeholder="Enter your Password" className="border border-[#E4E4E4] py-4 ps-5 pe-16 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
         <div className="absolute right-7   top-11">
             {
@@ -63,7 +63,7 @@ function Login() {
             }
         </div>
       </div>
-      <div className="flex flex-row justify-between gap-2 mt-3 sf-normal text-sm text-[#000000] mx-3">
+      <div className="flex flex-row justify-between gap-2 mt-3 sf-normal font-extralight text-sm text-[#000000] mx-3">
         <div className="flex  items-center gap-2">
             <input required  type="checkbox" name="checkbox" id="checkbox" />
             <label   htmlFor="checkbox">Remember me</label>

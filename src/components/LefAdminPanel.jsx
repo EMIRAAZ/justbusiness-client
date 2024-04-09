@@ -39,7 +39,7 @@ function LefAdminPanel() {
 
     const handleLogout = ()=> {
         dispatch(logout());
-        navigate('/login');
+        navigate('/admin-login');
     }
     
 
@@ -50,7 +50,7 @@ function LefAdminPanel() {
         <div className="pt-14 px-6">
             <img src={ImageSVG} alt="logo" className='w-44 h-12 object-contain'  />
         </div>
-        <div className="flex justify-center items-center sf-medium flex-col">
+        <div className="flex justify-center items-center font-medium sf-medium flex-col">
             <div className="mt-12  ">
                 <FaRegCircleUser size={50} />
             </div>
@@ -58,22 +58,22 @@ function LefAdminPanel() {
             <h2 className='text-center text-sm pb-1.5'>Edit Profile</h2>
             <h3 className=' flex justify-center text-sm items-center gap-2' onClick={handleLogout}>Logout <MdLogout/></h3>
         </div> 
-        <div className="flex justify-center text-[#ffffff] sf-medium pt-16 pb-12 px-4 ">
+        <div className="flex justify-center text-[#ffffff] sf-medium font-medium pt-10 pb-12 px-4 ">
             <ul>
                 <Link to={'/admin/dashboard'}>
-                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaHome/> Dashboard</li>
+                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-3 px-6 rounded-lg' > <FaHome/> Dashboard</li>
                 </Link>
                 <Link to={'/admin/enquiries'}>
-                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaUsers/> Enquiries</li>
+                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-3 px-6 rounded-lg' > <FaUsers/> Enquiries</li>
                 </Link>
                 <Link to={'/admin/manage-properties'}>
-                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaRegBuilding/> Manage Properties</li>
+                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-3 px-6 rounded-lg' > <FaRegBuilding/> Manage Properties</li>
                 </Link>
                 <Link to={'/admin/manage-blog'}>
-                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaBlogger/> Blog / Developers</li>
+                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-3 px-6 rounded-lg' > <FaBlogger/> Blogs / Developers</li>
                 </Link>
                 <Link to={'/admin/manage-banner'}>
-                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-4 px-6 rounded-lg' > <FaBlogger/> Manage Banner</li>
+                    <li className='flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:bg-white hover:text-black py-3 px-6 rounded-lg' > <FaBlogger/> Banners / Clients</li>
                 </Link>
             </ul>
         </div>

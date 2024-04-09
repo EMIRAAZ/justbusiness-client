@@ -35,11 +35,12 @@ function BlogCard( {item, refresh, setRefresh} ) {
         <div className="w-full h-48 rounded-[10px] overflow-hidden">
             <img src={item.mainImgaeLink} className=' w-full h-full object-cover' alt="" />
         </div>
-        <div className="poppins-medium text-2xl text-center mt-3">
-            <h1>{item.blogTitle}</h1>
+        <div className="poppins-medium text-2xl text-center mt-1">
+            <h1>{item.blogTitle.length > 24 ? item.blogTitle.slice(0,24)+'...' : item.blogTitle }</h1>
         </div>
-        <div className="poppins-medium text-sm text-[#666666] text-left mt-3">
-            <p>{item.blogBody}</p>
+        <div className="break-words poppins-medium text-sm text-[#666666] text-left mt-3">
+            { item.date && <p className='text-[13px] mb-2'>{new Date(item.date).toDateString()}</p>}
+            <p>{item.blogBody.length > 134 ? item.blogBody.slice(0,150)+"..." : item.blogBody }</p>
         </div>
         <div className="flex gap-2 mt-3">
             <button onClick={()=>navigate(`/admin/edit-blog/${item._id}`,{state:item})} className='flex-1 py-3 rounded-[5px] border border-[#000000] text-[#000000] bg-[#FFFFFF]'>Edit</button>

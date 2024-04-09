@@ -34,8 +34,8 @@ function City({ item, refresh, setRefresh }) {
         <div className="w-52 h-[200px] relative">
             <img src={item.mainImgaeLink} className='object-cover w-full h-full rounded-[10px]' alt="" />
             <div className="absolute top-3 left-3 w-full ">
-                <p className='bg-[#666666] text-center poppins-semibold text-[#ffffff] max-w-[78px] w-[78px] py-2 text-[10px] rounded-[40px]'>Dubai</p>
-                <h1 className='text-2xl text-[#ffffff]  poppins-semibold'>Marina</h1>
+                <p className='bg-[#666666] text-center poppins-semibold text-[#ffffff] max-w-[78px] w-[78px] py-2 text-[10px] rounded-[40px]'>{item.cityName}</p>
+                <h1 className='text-2xl text-[#ffffff]  poppins-semibold'>{item.emirateName}</h1>
             </div>
         </div>
         <div className="mt-4  flex gap-2 w-full px-2.5">

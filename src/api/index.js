@@ -1,8 +1,9 @@
-import { api } from "./instance";
+import {api} from "./instance"
+
 
 export const login = async (credentials) => {
   try {
-    const response = await api.post('/admin/login', credentials);
+    const response = await api.post(`/admin/login/`,credentials)
     return response.data;
   } catch (error) {
     throw error || 'An error occurred during login.';
@@ -28,9 +29,26 @@ export const addingProperty = async (propertyDatas) => {
       throw error || 'An error occurred during signup.';
     }
   };
-export const getProperties = async()=>{
+export const getProperties = async(query)=>{
   try {
-    const response = await api.get('/property/');
+    const response = await api.get(`/property?${query}`);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+}
+export const getPropertiesCounts = async(query)=>{
+  try {
+    const response = await api.get(`/property/counts`);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+}
+
+export const getPropertyById = async(id)=>{
+  try {
+    const response = await api.get(`/property/${id}`);
     return response.data;
   } catch (error) {
     throw error || 'An error occurred during signup.';
@@ -108,15 +126,97 @@ export const addingCity = async (data) => {
     throw error || 'An error occurred during signup.';
   }
 };
+
+export const addingEnquiry = async (data) => {
+  try {
+    const response = await api.post('/property/enq', data);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+};
 export const getCities = async()=>{
+  try {
+    const response = await api.get('/city/');
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+  }
+  
+// adding banner logos----------------
+export const addingBannerLogo = async (data) => {
+  try {
+    const response = await api.post('/banner-logo/', data);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+};
+// adding clients logos----------------
+export const addingClientLogo = async (data) => {
+  try {
+    const response = await api.post('/client-logo/', data);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+};
+
+export const getBannerLogos = async()=>{
+  try {
+    const response = await api.get('/banner-logo/');
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+  }
+
+
+export const getClientLogos = async()=>{
 try {
-  const response = await api.get('/city/');
+  const response = await api.get('/client-logo/');
   return response.data;
 } catch (error) {
   throw error || 'An error occurred during signup.';
 }
 }
 
+export const updateBannerLogo = async(data)=>{
+  try {
+    const response = await api.put('/banner-logo/',data);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+  }
+
+  export const updateClientLogo = async(data)=>{
+    try {
+      const response = await api.put('/client-logo/',data);
+      return response.data;
+    } catch (error) {
+      throw error || 'An error occurred during signup.';
+    }
+    }
+  
+    export const deleteBannerLogo = async(id)=>{
+      try {
+        const response = await api.delete(`/banner-logo/${id}`,{withCredentials:true},);
+        return response.data;
+      } catch (error) {
+        throw error || 'An error occurred during signup.';
+      }
+      }
+
+      export const deleteClientLogo = async(id)=>{
+        try {
+          const response = await api.delete(`/client-logo/${id}`,{withCredentials:true},);
+          return response.data;
+        } catch (error) {
+          throw error || 'An error occurred during signup.';
+        }
+        }
 export const updateCity = async(data)=>{
 try {
   const response = await api.put('/city/',data);
@@ -157,6 +257,15 @@ try {
   throw error || 'An error occurred during signup.';
 }
 }
+
+export const getBlogById = async(id)=>{
+  try {
+    const response = await api.get(`/blog/get-one/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error || 'An error occurred during signup.';
+  }
+  }
 
 export const updateBlog = async(data)=>{
 try {

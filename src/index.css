@@ -9,37 +9,22 @@
 body {
   font-family: "SF-PRO-DISPLAY-MEDIUM", "Lucida Sans", "Lucida Sans Regular",
     "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  user-select: none;
 }
-
-@font-face {
-  font-family: "SF-PRO-DISPLAY-NORMAL";
-  src: url("./assets/fonts/SFPRODISPLAYREGULAR.OTF") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "SF-PRO-DISPLAY-MEDIUM";
-  src: url("./assets/fonts/SFPRODISPLAYMEDIUM.OTF") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: "SF-PRO-DISPLAY-BOLD";
-  src: url("./assets/fonts/SFPRODISPLAYBOLD.OTF") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-}
-
 .sf-normal {
   font-family: "SF-PRO-DISPLAY-NORMAL", sans-serif;
+  font-weight: 400!important;
 }
 .sf-medium {
   font-family: "SF-PRO-DISPLAY-MEDIUM", sans-serif;
+  font-weight: 500!important;
+}
+.sf-medium-600 {
+  font-family: "SF-PRO-DISPLAY-MEDIUM", sans-serif;
+  font-weight: 600!important;
 }
 .sf-bold {
   font-family: "SF-PRO-DISPLAY-BOLD", sans-serif;
+  font-weight: 700!important;
 }
 
 
@@ -165,4 +150,27 @@ input[type="search"]::-webkit-search-results-decoration {
 
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+
+
+.swiper-button-prev::after{
+  color: black;
+    font-weight: bolder;
+    font-size: 11px;
+    background-color: white;
+    padding: 8px 11px;
+    border-radius: 30px;
+}
+
+.swiper-button-next::after{
+  color: black;
+    font-weight: bolder;
+    font-size: 11px;
+    background-color: white;
+    padding: 8px 11px;
+    border-radius: 30px;
+}
+
+.swiper-pagination-bullet-active{
+  background-color: white;
 }
