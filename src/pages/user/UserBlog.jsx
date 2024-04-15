@@ -48,24 +48,24 @@ function UserBlog() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="poppins-medium text-2xl text-center mt-1">
-                        <h1 className="text-[25px]">
-                          {item.blogTitle.length > 24
-                            ? item.blogTitle.slice(0, 24) + "..."
+                      <div className="poppins-medium text-2xl mt-1">
+                        <h1 className="text-[25px] my-4">
+                          {item.blogTitle.length > 22
+                            ? item.blogTitle.slice(0, 22) + "..."
                             : item.blogTitle}
                         </h1>
                       </div>
-                      <div className="break-words poppins-medium text-sm text-[#666666] text-left mt-3">
+                      <div className="break-words poppins-medium text-[15px] text-[#666666] text-left mt-3">
                         <p>
                           {item.blogBody.length > 134
-                            ? item.blogBody.slice(0, 150) + "..."
+                            ? item.blogBody.slice(0, 134)
                             : item.blogBody}
                         </p>
                       </div>
-                      <div className="my-4">
+                      <div className="mt-5 mb-2">
                         <button
                           type="button"
-                          className="bg-white border border-[#000000] w-full py-3 rounded-[5px] text-[10px] font-semibold poppins-semibold"
+                          className="bg-white border border-[#000000] w-full py-2.5 rounded-[5px] text-[10px] font-semibold poppins-semibold"
                         >
                           Keep Reading
                         </button>

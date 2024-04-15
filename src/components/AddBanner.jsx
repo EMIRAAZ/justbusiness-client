@@ -95,11 +95,7 @@ function AddBanner() {
                 <input disabled={isLoading} autoComplete="" name="buttonText" value={formData.buttonText} onChange={handleChange} type="text" id="buttonText" placeholder="View All Propreties" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal   font-extralight text-sm text-[#666666]  outline-none" />
             </div>
 
-            {/* Button Link */}
-            <div className="flex flex-col gap-2 mx-3">
-                <label htmlFor="buttonLink" className="sf-medium font-medium text-sm text-[#000000]">Button Link</label>
-                <input disabled={isLoading} autoComplete="" name="buttonLink" value={formData.buttonLink} onChange={handleChange} type="url" id="buttonLink" placeholder="View All Propreties" className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal text-sm text-[#666666]  outline-none" />
-            </div>
+        
 
         </div>
 

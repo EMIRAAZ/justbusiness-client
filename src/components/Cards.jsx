@@ -138,7 +138,12 @@ function Cards({ item, refresh, setRefresh }) {
           </button>
           <button
             className="flex-1 py-2.5 rounded font-semibold text-[10px] bg-[#000000] text-[#ffffff]"
-            onClick={() => handleDelete(item._id)}
+            onClick={() => {
+              const status = confirm('Are you want to delete!')
+              if(status){
+                handleDelete(item._id)
+              }
+            }}
           >
             Delete
           </button>

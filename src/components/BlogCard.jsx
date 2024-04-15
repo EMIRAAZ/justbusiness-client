@@ -45,7 +45,13 @@ function BlogCard( {item, refresh, setRefresh} ) {
         <div className="flex gap-2 mt-3">
             <button onClick={()=>navigate(`/admin/edit-blog/${item._id}`,{state:item})} className='flex-1 py-3 rounded-[5px] border border-[#000000] text-[#000000] bg-[#FFFFFF]'>Edit</button>
             <button
-            onClick={() => handleDelete(item._id)}
+            onClick={() => {
+              const status = confirm('Are you want to delete!')
+              if(status){
+
+                handleDelete(item._id)
+              }
+            }}
             className='flex-1 py-3 rounded-[5px] border border-[#000000]  text-[#ffffff] bg-[#000000]'>Delete</button>
         </div>
     </div>

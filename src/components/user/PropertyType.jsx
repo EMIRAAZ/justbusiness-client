@@ -8,7 +8,7 @@ function PropertyType() {
     const propertiesTypes = [
         {
             image:Apartment,
-            title:'apartment',
+            title:'Apartment',
             link:'apartment'
         },
         {
@@ -23,7 +23,7 @@ function PropertyType() {
         },
         {
             image:Penthouse,
-            title:'penthouse',
+            title:'Penthouse',
             link:'penthouse'
 
         },

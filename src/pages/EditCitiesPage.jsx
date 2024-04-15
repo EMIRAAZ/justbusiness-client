@@ -34,11 +34,11 @@ function EditCitiesPage() {
 
   return (
     <div>
-      <div className="">
+      <div className="h-fit">
         <div className="sticky top-0 bg-white flex justify-between py-6">
           <h1 className="sf-medium  font-medium text-5xl">Add City</h1>
         </div>
-        <div className=" grid grid-cols-5 h-[83vh] overflow-scroll">
+        <div className=" grid grid-cols-5 overflow-scroll">
             {data.map((item)=> <City refresh={refresh} setRefresh={setRefresh} key={item._id} item={item} /> )}
         </div>
       </div>

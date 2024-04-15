@@ -1,4 +1,4 @@
-import Banner from "./Banner.svg"
+import Banner from "./banner.webp"
 import WhiteLogo from "./PropertysellerBlackLogo.svg"
 import BrandNameEMIRAZZ from "./emirazz.svg"
 import BrandNameAZIAZI from "./aziazi.svg"
@@ -18,6 +18,9 @@ import AboutCard from "./about card.svg"
 import BedIcon from "./Bed.svg"
 import TypeIcon from "./type.svg"
 import OurSellerSVG from "./our-sellers 1.svg"
+
+import SuccessLabel from "./form-submion-success-bar.svg"
+import FooterLogoTransparentWhiteLogo from "./footerlogoTransparentWhiteLogo.svg"
 export{
     Banner,
     WhiteLogo,
@@ -34,5 +37,7 @@ export{
     AboutCard,
     BedIcon,
     TypeIcon,
-    OurSellerSVG
+    OurSellerSVG,
+    SuccessLabel,
+    FooterLogoTransparentWhiteLogo
 }

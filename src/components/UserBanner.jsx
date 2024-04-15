@@ -13,7 +13,6 @@ function UserBanner({
   bannerHeadline,
   bannerSubtext,
   buttonText,
-  buttonLink,
   mainImgaeLink,
   _id,
   item,
@@ -57,7 +56,7 @@ function UserBanner({
               : bannerSubtext}
           </p>
           <button
-            
+            onClick={()=>navigate('/property-type/all')}
             className="mt-3 mb-3 poppins-semibold text-[13px] bg-white text-black px-6 py-3 rounded-[10px]"
           >
             {buttonText && buttonText.length > 19
@@ -92,7 +91,12 @@ function UserBanner({
           </div>
           <div className="mt-4 w-28 h-12 bg-[#000000] text-[#ffffff] hover:bg-[#666666] flex justify-center items-center rounded-[4px] cursor-pointer">
             <span
-              onClick={() => handleDelete(`${_id}`)}
+              onClick={() => {
+                const status = confirm('Are you want to delete!')
+                if(status){
+                  handleDelete(`${_id}`)
+                }
+              }}
               className="poppins-semibold text-lg"
             >
               Delete

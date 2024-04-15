@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { WhiteLogo } from "../../assets/images/";
+import { SuccessLabel, WhiteLogo } from "../../assets/images/";
 import BlackLogoForWhite from "../../assets/logo/PropertysellerBlackLogoForBgWhite.svg";
 import { HamburgerSVG,HamburgBlackWhiteBg } from "../../assets/icons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -16,6 +16,9 @@ function Header() {
   const [pathName, setPathName] = useState();
 
   useEffect(() => {
+
+  
+
     if (pathname === "/") {
       setPathName(true);
     } else {
@@ -31,11 +34,11 @@ function Header() {
         <header
           className={`${pathName ? " bg-black  " : "bg-white border  "} ${
             togggleButton && "fixed w-[90%] top-3 z-[300px]"
-          } relative poppins-medium text-white flex justify-between md:w-[98%] w-[95%] px-7 h-20 items-center rounded-[10px]`}
+          } relative poppins-medium text-white flex justify-between md:w-[98%] w-[95%] px-7 h-20 items-center  rounded-[10px]`}
         >
           <img
             onClick={() => navigate("/")}
-            className="cursor-pointer object-cover w-[185px] max-h-[30px] h-[30px] max-w-[185px] "
+            className="cursor-pointer object-cover w-[195px] "
             src={pathName ? WhiteLogo : BlackLogoForWhite}
             alt=""
           />

@@ -5,6 +5,7 @@ import {OurSellerSVG} from "../../assets/images"
 import React from "react";
 import { getClientLogos } from "../../api";
 import { errorToast } from "../../toast";
+import Lazyloading from "../../components/Lazyloading/Lazyloading";
 
 function OurSellers() {
 
@@ -43,13 +44,13 @@ function OurSellers() {
             </h1>
           </div>
         </section>
-        <div className="mx-5 flex flex-col justify-center my-4 lg:my-14 items-center md:mx-20 lg:mx-28 ">
-          <section className=" gap-3 flex justify-center items-center flex-wrap mx-10 ">
+        <div className="mx-5 my-4 lg:my-14 items-center  ">
+          <section className=" gap-3 grid md:grid-cols-3 grid-cols-2 lx:grid-cols-4 flex-wrap mx-10 ">
             
               {
-                data && data.length > 0 && data.map((item)=>{
-                  return <div className="lg:w-[200px] max-w-[150px] my-5 lg:my-0 py-10 lg:py-0 h-[180px] rounded-[15px] flex justify-center items-center px-5 border max-h-[100px] lg:max-w-[200px] lg:max-h-[180px]" key={item._id}>
-                      <img src={item?.mainImgaeLink} alt="loading" />
+                data && data.length > 0 && data.map((item,index)=>{
+                  return <div className="py-14 sm:py-0 px-5 sm:px-0 h-[100px] sm:h-[200px] rounded-[15px] flex justify-center items-center border" key={item._id}>
+                      <Lazyloading src={item?.mainImgaeLink} alt={'loading'} className={'my-10 object-contain'} />
                   </div>
                 })
               }

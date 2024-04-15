@@ -72,7 +72,7 @@ function App() {
           <Route path="edit-banners" element={<EditBannersPage />} />
           <Route path="edit-developer/:id" element={<EditDeveloperPage />} />
           <Route path="add-developer" element={<AddDeveloperPage />} />
-          <Route path="developers" element={<ViewDevelopersPage />} />
+          {/* <Route path="developers" element={<ViewDevelopersPage />} /> */}
           <Route path="developers" element={<ViewDevelopersPage />} />
           <Route path="add-banner-client" element={<AddBannerClient />} />
           <Route path="add-client" element={<AddClient />} />

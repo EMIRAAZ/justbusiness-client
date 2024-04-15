@@ -20,15 +20,16 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 
 
-function PropertiesCard({ item ,handleRegister}) {
+function PropertiesCard({ item ,handleRegister,navigate}) {
 
-  const navigate = useNavigate()
+  
 
 
   const handleShare = () => {
    console.log(window.location.href);
   };
  
+  const result = item.propertyType.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' , ');
   return (
     <div className="max-w-[460px] rounded-[20px] border border-[border-[#D2D2D2] ">
       <div className="w-full h-[221px] relative overflow-hidden rounded-[20px]">
@@ -52,6 +53,8 @@ function PropertiesCard({ item ,handleRegister}) {
             </SwiperSlide>
           )}
           {item.smallImage.map((item) => {
+            
+
             return (
               <SwiperSlide key={item._id}>
                 <img
@@ -77,15 +80,17 @@ function PropertiesCard({ item ,handleRegister}) {
       </div>
       <div className="px-5 py-3 poppins-medium">
         <div className="text-[#545454] font-normal text-xs  flex justify-between items-center">
-          <p>{   item.propertyType && item.propertyType}
-          </p>
+          {/* <p>{   item.propertyType && item.propertyType}</p> */}
+          {/* <p>{JSON.stringify(item.propertyType)}</p> */}
+          <p>{result}</p>
           <p className="flex gap-2 justify-center items-center">
             <FaBed color="#545454" size={18} />{" "}
             <span className="font-normal text-[10px]">{item.beds}</span>{" "}
           </p>
         </div>
         <div className="poppins-semibold text-[#000000] text-xl mt-3">
-          <h1>{ item.propretyHeadline &&  item.propretyHeadline.length > 55 ? String(item.propretyHeadline).toLocaleUpperCase().slice(0,56) + '...' : item.propretyHeadline }</h1>
+          <h1>{ item.propretyHeadline &&  item.propretyHeadline.length > 11 ? String(item.propretyHeadline).toLocaleUpperCase().slice(0,11)  : item.propretyHeadline }</h1>
+
         </div>
         <div className="poppins-semibold text-[#000000] text-base mt-3">
           <h1 className="font-medium">

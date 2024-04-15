@@ -15,7 +15,7 @@ function UserBlogDetails() {
       navigate("/blog");
     }
     fetchdata();
-  }, []);
+  }, [navigate]);
 
   const fetchdata = async () => {
     try {
@@ -59,21 +59,21 @@ function UserBlogDetails() {
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div className="poppins-medium text-2xl text-center mt-1">
-                            <h1 className="text-[25px]">
-                              {item.blogTitle.length > 24
-                                ? item.blogTitle.slice(0, 24) + "..."
+                          <div className="poppins-medium text-2xl  mt-1">
+                            <h1 className="text-[25px] my-3">
+                              {item.blogTitle.length > 19
+                                ? item.blogTitle.slice(0, 19) + "..."
                                 : item.blogTitle}
                             </h1>
                           </div>
                           <div className="break-words poppins-medium text-sm text-[#666666] text-left mt-3">
                             <p>
-                              {item.blogBody.length > 134
-                                ? item.blogBody.slice(0, 150) + "..."
+                              {item.blogBody.length > 131
+                                ? item.blogBody.slice(0, 131) 
                                 : item.blogBody}
                             </p>
                           </div>
-                          <div className="my-4">
+                          <div className="mt-4 mb-2">
                             <button
                             onClick={()=>navigate(`/blog/${item.blogTitle}/${item._id}`)}
                               type="button"
@@ -106,7 +106,7 @@ const BlogBody = ({item})=>{
   return(
     <div className="">
         <img src={item.mainImgaeLink} className="rounded-[20px] w-full h-[514px] max-w-[749px] object-cover " alt="" />
-        <h1 className="sf-bold text-[30px] lg:leading-tight lg:text-[40px] my-4">{item.blogTitle}</h1>
+        <h1 className="poppins-semibold text-[30px] lg:leading-tight lg:text-[40px] my-4">{item.blogTitle}</h1>
         { item.date && <p className='text-[10px] sf-medium lg:text-[20px] text-[#666666]'>{new Date(item.date).toDateString()}</p>}
 
         <p className="sf-medium my-5 text-[14px] lg:text-[15px]  text-[#666666]">{item.blogBody}</p>

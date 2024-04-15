@@ -28,7 +28,7 @@ function UserViewProjects() {
       navigate("/all-projects");
     }
     fetchdata();
-  }, []);
+  }, [navigate]);
 
   const handleToggleImagePoppup = ()=>{
     setImageTogglePoppup(!toggleImagePoppup)
@@ -66,7 +66,6 @@ function UserViewProjects() {
     }
   };
 
-  // console.log(index+1 === property?.smallImage.length-1 ? 'Placeholder' : index+1 )
   return (
     <div>
       <Header />
@@ -177,8 +176,8 @@ function UserViewProjects() {
                 </div>
               </div>
             </div>
-            <div className="border py-4 px-2 rounded-[15px] flex-[30%] hidden lg:block ">
-              <div className="">
+            <div className="relative border py-4 px-2 rounded-[15px] flex-[30%] hidden lg:block ">
+              <div className="sticky top-0">
                 <h1 className="text-[30px] sf-medium text-center mb-3">
                   Register Your interest
                 </h1>
@@ -189,7 +188,7 @@ function UserViewProjects() {
                 />
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="Phone"
                   className="w-full poppins font-normal rounded-[10px] ps-4 outline-none py-4 text-[12px] border border-[#E4E4E4]"
                 />
                 <input
@@ -321,7 +320,7 @@ function UserViewProjects() {
               {properties &&
                 properties.map((item, index) => {
                   if (index < 3) {
-                    return <PropertiesCard key={item?._id} item={item} />;
+                    return <PropertiesCard navigate={navigate} key={item?._id} item={item} />;
                   }
                 })}
             </div>
@@ -340,7 +339,7 @@ function UserViewProjects() {
               { toggleImagePoppup && <div className="fixed top-0 left-0 ri w-full h-full " style={{background:"rgba(0,0,0,0.9)"}}>
                 <h1 onClick={handleToggleImagePoppup} className="absolute top-4 right-3 text-white text-right me-10 pt-4 text-3xl">&times;</h1>
                   <div className="h-screen flex-col flex justify-center items-center">
-                    <div className="w-[90%]  md:w-[500px] h-[350px] rounded-md overflow-hidden flex">
+                    <div className="w-[90%]  md:w-[600px] h-[350px] rounded-md overflow-hidden flex">
                       { property?.smallImage?.length >0 && <img src={property?.smallImage[selectImageOfIndex]?.image} className="cursor-text w-full h-full object-cover " alt="" />}
                     </div>
                     <div className="absolute bottom-5 flex gap-3 overflow-x-scroll sm:overflow-auto">

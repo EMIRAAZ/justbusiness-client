@@ -69,7 +69,12 @@ function ViewBannerClient() {
                   Edit
                 </a>
                   <a
-                  onClick={() => handleDelete(item._id)}
+                  onClick={() => {
+                    const status = confirm('Are you want to delete!')
+                    if(status){
+                      handleDelete(item._id)
+                    }
+                  }}
                   className="cursor-pointer text-xs  hover:underline font-medium"
                 >
                   Delete

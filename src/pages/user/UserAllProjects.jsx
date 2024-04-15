@@ -27,7 +27,7 @@ function UserAllProjects() {
     }
     
 
-  }, [type]); // Fetch data only once when component mounts
+  }, [type,navigate]); // Fetch data only once when component mounts
 
   const fetchData = async (type) => {
     try {
@@ -69,12 +69,12 @@ function UserAllProjects() {
         <div className="mx-5 flex flex-col justify-center my-4 lg:my-14 items-center md:mx-20 lg:mx-28 ">
           <div className="grid xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 mt-0  gap-5">
             {currentProperties.map((item, index) => (
-              <Link
-                to={`/property/${item.propretyHeadline}/${item._id}`}
+              <p
+              onClick={()=> navigate(`/property/${item.propretyHeadline}/${item._id}`) }  
                 key={index}
               >
                 <PropertiesCard key={item?._id} item={item} />
-              </Link>
+              </p>
             ))}
           </div>
           <div className="mt-4">

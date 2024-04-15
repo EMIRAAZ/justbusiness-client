@@ -10,6 +10,7 @@ import PropertyType from "../../components/user/PropertyType.jsx";
 import {CloseSVG } from "../../assets/icons"
 import UserBanner from "../../components/UserBanner.jsx";
 
+import {SuccessLabel} from "../../assets/images/index.js"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -21,6 +22,7 @@ import "./index.css";
 import { Pagination } from "swiper/modules";
 import Footer from "../../components/Footer.jsx";
 import { errorToast, successToast } from "../../toast/index.js";
+import Lazyloading from "../../components/Lazyloading/Lazyloading.jsx";
 
 function UserHome() {
   const [properties, setProperties] = React.useState([]);
@@ -33,9 +35,25 @@ function UserHome() {
   const [id, setId] = React.useState('');
   const [developerId, setDeveloperId] = React.useState('');
   const navigate = useNavigate([]);
+  const [successCLoseModal,setSuccessCLoseModal] = React.useState(false)
 
   React.useEffect(() => {
     fetchdata();
+
+   
+
+    return()=>{
+      setSuccessCLoseModal(false)
+      setDeveloperId('')
+      setId('')
+      setName('')
+      setNumber('')
+      setCities([])
+      setBlogs([])
+      setBanners([])
+      setProperties([])
+      setModal(false)
+    }
   }, []);
 
   const fetchdata = async () => {
@@ -56,10 +74,12 @@ function UserHome() {
   const handleRegister = (id,deveId)=>{
     setDeveloperId(deveId)
     setModal(true)
+    setSuccessCLoseModal(false)
     setId(id)
   }
   const closeRegister = ()=>{
     setModal(false)
+    setSuccessCLoseModal(false)
     setId('')
   }
 
@@ -67,6 +87,17 @@ function UserHome() {
         
     try {
         e.preventDefault()
+
+       
+
+      
+
+        if(!name) return errorToast('Name is required')
+        if(name.length < 3 ) return errorToast('Minimum three chracters mustbe entered')
+        if(!number) return errorToast('Mobile number is required')
+        if(number.length > 10 ) return errorToast('Mobile number is no morethan 10')
+        if(number.length < 10 ) return errorToast('10 digits required')
+
         let data = {
           name,
           number,
@@ -76,9 +107,15 @@ function UserHome() {
      
         await addingEnquiry(data);
      
-        successToast('Successfully added')
         setName('')
         setNumber('')
+        setModal(false)
+        setSuccessCLoseModal(true)
+
+
+        setTimeout(() => {
+          setSuccessCLoseModal(false);
+        }, 600);
     }  catch (error) {
         console.log(error.message);
       }
@@ -106,14 +143,14 @@ function UserHome() {
           {properties &&
             properties.map((item, index) => {
               if (index < 9) {
-                return <PropertiesCard handleRegister={handleRegister} key={item?._id} item={item} />;
+                return <PropertiesCard navigate={navigate} handleRegister={handleRegister} key={item?._id} item={item} />;
               }
             })}
         </div>
 
-      { modal &&  <div className="w-full h-screen z-50 fixed top-0 flex justify-center items-center left-0" style={{background:"rgba(0,0,0,0.9"}}>
-            <form onSubmit={handleSubmit} className="rounded-[20px] max-w-[820px] w-[90%] lg:w-full  h-[280px] flex flex-col  bg-white px-10 ">
-              <div className="justify-between w-full my-5 flex text-[30px] sf-medium ">
+      { modal &&  <div className="w-full h-screen z-50 fixed top-0  flex justify-center items-center left-0" style={{background:"rgba(0,0,0,0.9"}}>
+            <form onSubmit={handleSubmit} className="rounded-[20px] py-7 max-w-[820px] w-[90%] lg:w-full   h-auto flex flex-col  bg-white px-8 ">
+              <div className="justify-between w-ful flex text-[30px] mb-4 sf-medium ">
                 <p>Register Your Interest</p>
                 <p> <img onClick={closeRegister} src={CloseSVG} alt="loading" loading="lazy" className="w-6 h-6" /> </p>
               </div>
@@ -121,6 +158,29 @@ function UserHome() {
               <input type="number" name={number} onChange={(e)=>setNumber(e.target.value)} placeholder="Phone" className="outline-none w-[100%] py-4 px-5  appearance-none border border-[#E4E4E4] text-xs poppins rounded-[10px]" />
               <input type="submit"  value={'Submit'} className="outline-none w-[100%] py-4 px-5  appearance-none border bg-black text-white mt-2 text-xs poppins rounded-[10px]" />
             </form>
+        </div>}
+
+        { successCLoseModal && <div className="w-full h-screen z-50 fixed top-0  flex justify-center items-center left-0" style={{background:"rgba(0,0,0,0.9"}}>
+           <div className="relative rounded-[20px] py-7 max-w-[820px] w-[90%] lg:w-full   h-auto flex flex-col  bg-white px-8  justify-center items-center " >
+             <Lazyloading alt={'loading'} src={SuccessLabel} className={'w-[100px] object-contain'}  />
+             <p>
+               {/* <img onClick={closeRegister} src={CloseSVG} alt="loading" loading="lazy" className="w-6 h-6" />  */}
+               <div className="" onClick={()=>setSuccessCLoseModal(false)}>
+                    <Lazyloading  className={'w-6 h-6 absolute right-8 top-6'} src={CloseSVG} alt={'loading'} />
+               </div>
+               </p>
+             <h1 className="text-[30px] poppins-semibold mt-4 ">Your Interest has Been Registered</h1>
+             <h2 className="text-[18px]  poppins-medium mt-4">Our team will contact you shortly</h2>
+           </div>
+            {/* <form onSubmit={handleSubmit} >
+              <div className="justify-between w-ful flex text-[30px] mb-4 sf-medium ">
+                <p>Register Your Interest</p>
+                
+              </div>
+              <input type="text" name={name} onChange={(e)=>setName(e.target.value)} placeholder="Name" className="mb-1 outline-none w-[100%] py-4 px-5  appearance-none border border-[#E4E4E4] text-xs poppins rounded-[10px]" />
+              <input type="number" name={number} onChange={(e)=>setNumber(e.target.value)} placeholder="Phone" className="outline-none w-[100%] py-4 px-5  appearance-none border border-[#E4E4E4] text-xs poppins rounded-[10px]" />
+              <input type="submit"  value={'Submit'} className="outline-none w-[100%] py-4 px-5  appearance-none border bg-black text-white mt-2 text-xs poppins rounded-[10px]" />
+            </form> */}
         </div>}
 
         <div className="">
@@ -134,7 +194,7 @@ function UserHome() {
         {/* property type */}
 
         <div className="my-10 w-full max-w-[1300px]">
-          <PropertyType />
+          <PropertyType  />
         </div>
 
         {/* ------------- */}
@@ -150,7 +210,7 @@ function UserHome() {
         {/*  */}
         <section className="w-full max-w-[1300px]">
           <div className="sf-medium-600 flex items-center justify-between w-full">
-            <h1 className="flex  flex-col leading-tight ">
+            <h1 className="flex  flex-col leading-tight mb-3 ">
               <span className=" text-[20px] lg:text-[50px] text-[#666666]">
                 Explore city based
               </span>{" "}
@@ -161,7 +221,9 @@ function UserHome() {
             </button>
           </div>
           <div className="hidden  md:grid gap-3 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 max-w-[1300px]">
-            {cities.map((item) => {
+            {cities.map((item,index) => {
+              if(index < 10){
+
               return (
                 <div className="border rounded-[10px]" key={item._id}>
                   <div className="relative rounded-[10px] overflow-hidden  h-[200px]">
@@ -171,13 +233,13 @@ function UserHome() {
                       loading="lazy"
                       className="w-full h-full object-cover"
                     />
-                    <div className="bg-gradient-to-b from-black to-black absolute top-0 w-full h-full opacity-10 z-20"></div>
+                    <div className="bg-gradient-to-b from-black to-black absolute top-0 w-full h-full opacity-20 z-20"></div>
                     <div className="px-3 py-3 absolute top-0 w-full h-full z-30">
                       <span className="block text-white w-fit bg-[#666666] text-[10px] rounded-[40px] px-3 py-2">
-                        {item.cityName}
+                        {item.emirateName}
                       </span>
                       <p className="poppins-semibold text-[24px] text-white ">
-                        {item.emirateName}
+                        {item.cityName}
                       </p>
                     </div>
                   </div>
@@ -187,6 +249,9 @@ function UserHome() {
                   </p>
                 </div>
               );
+
+            }
+
             })}
           </div>
 
@@ -206,7 +271,7 @@ function UserHome() {
                 cities.map((item) => {
                   return (
                     <SwiperSlide key={item._id} className="">
-                      <div className="h-[280px] rounded-[10px] border">
+                      <div className="h-[280px] rounded-[10px] border-[#D2D2D2] border">
                         <img
                           src={item.mainImgaeLink}
                           alt="loading"
@@ -260,8 +325,9 @@ function UserHome() {
                       <div className="rounded-[10px] overflow-hidden h-[220px]" key={item._id}>
                         <img src={item.mainImgaeLink} className="w-full h-full object-cover" />
                       </div>
-                      <div className="poppins-medium text-2xl text-center mt-1">
-                        <h1 className="text-[25px]">{item.blogTitle.length > 24 ? item.blogTitle.slice(0,24)+'...' : item.blogTitle }</h1>
+                      <div className="poppins-medium text-2xl">
+                        <h1 className="text-[25px] pt-4">{item.blogTitle.length > 21 ? item.blogTitle.slice(0,21)+'...' : item.blogTitle }</h1>
+
                       </div>
                       <div className="break-words poppins-medium text-sm text-[#666666] text-left mt-3">
                         <p>{item.blogBody.length > 134 ? item.blogBody.slice(0,150)+"..." : item.blogBody }</p>
