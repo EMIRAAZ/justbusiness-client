@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Layout from '../components/Layout'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ADMIN_ID, ADMIN_TOKEN } from '../api/localstorage-varibles';
 
 function AdminLayout() {
 
@@ -10,10 +11,10 @@ function AdminLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!(localStorage.getItem(ADMIN_ID) && localStorage.getItem(ADMIN_TOKEN))) {
       navigate('/admin-login');
     }
-  }, [isAuthenticated, navigate]);
+  }, [navigate]);
 
   return (
     <div className=''>

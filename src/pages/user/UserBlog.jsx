@@ -35,9 +35,9 @@ function UserBlog() {
             {blogs &&
               blogs.map((item) => {
                   return (
-                    <div onClick={()=>navigate(`/blog/${item.blogTitle}/${item._id}`)}
+                    <div 
                       key={item._id}
-                      className="border p-4 rounded-[15px] h-fit cursor-pointer"
+                      className="border p-4 rounded-[15px] h-fit cursor-text"
                     >
                       <div
                         className="rounded-[10px] overflow-hidden h-[220px]"
@@ -49,9 +49,9 @@ function UserBlog() {
                         />
                       </div>
                       <div className="poppins-medium text-2xl mt-1">
-                        <h1 className="text-[25px] my-4">
+                        <h1 className="text-[25px]  my-4">
                           {item.blogTitle.length > 22
-                            ? item.blogTitle.slice(0, 22) + "..."
+                            ? item.blogTitle.slice(0, 19) + "..."
                             : item.blogTitle}
                         </h1>
                       </div>
@@ -64,8 +64,9 @@ function UserBlog() {
                       </div>
                       <div className="mt-5 mb-2">
                         <button
+                        onClick={()=>navigate(`/blog/${item.blogTitle}/${item._id}`)}
                           type="button"
-                          className="bg-white border border-[#000000] w-full py-2.5 rounded-[5px] text-[10px] font-semibold poppins-semibold"
+                          className="bg-white cursor-pointer border border-[#000000] w-full py-2.5 rounded-[5px] text-[10px] font-semibold poppins-semibold"
                         >
                           Keep Reading
                         </button>

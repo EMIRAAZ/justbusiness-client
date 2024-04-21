@@ -4,8 +4,9 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { errorToast, successToast } from "../toast";
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../api';
+import { adminLoginAPI } from '../api';
 import { setUser, setLoading, setError } from '../features/authSlice';
+import { ADMIN_ID, ADMIN_TOKEN } from "../api/localstorage-varibles";
 
 
 function Login() {
@@ -25,7 +26,9 @@ function Login() {
         if(!formdata.password) return errorToast('Password is required');
         try {
           dispatch(setLoading(true));
-          const user = await login(formdata);
+          const user = await adminLoginAPI(formdata);
+          localStorage.setItem(ADMIN_TOKEN,user?.token)
+          localStorage.setItem(ADMIN_ID,user?.result?._id)
           dispatch(setUser(user));
           successToast('sucess')
           navigate('/admin')

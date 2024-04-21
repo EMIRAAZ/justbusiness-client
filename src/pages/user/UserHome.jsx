@@ -4,14 +4,13 @@ import HomeIndex from "../../components/user/HomeIndex.jsx";
 
 import Brands from "../../components/user/Brands.jsx";
 import PropertiesCard from "../../components/user/PropertiesCard.jsx";
-import { addingCity, addingEnquiry, getBanners, getBlogs, getCities, getProperties } from "../../api";
+import { addingEnquiry, getBanners, getBlogs, getCities, getProperties } from "../../api";
 import { NavLink, useNavigate } from "react-router-dom";
 import PropertyType from "../../components/user/PropertyType.jsx";
 import {CloseSVG } from "../../assets/icons"
 import UserBanner from "../../components/UserBanner.jsx";
 
 import {SuccessLabel} from "../../assets/images/index.js"
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -21,7 +20,7 @@ import "./index.css";
 // import required modules
 import { Pagination } from "swiper/modules";
 import Footer from "../../components/Footer.jsx";
-import { errorToast, successToast } from "../../toast/index.js";
+import { errorToast } from "../../toast/index.js";
 import Lazyloading from "../../components/Lazyloading/Lazyloading.jsx";
 
 function UserHome() {
@@ -34,7 +33,7 @@ function UserHome() {
   const [name, setName] = React.useState('');
   const [id, setId] = React.useState('');
   const [developerId, setDeveloperId] = React.useState('');
-  const navigate = useNavigate([]);
+  const navigate = useNavigate();
   const [successCLoseModal,setSuccessCLoseModal] = React.useState(false)
 
   React.useEffect(() => {
@@ -88,10 +87,6 @@ function UserHome() {
     try {
         e.preventDefault()
 
-       
-
-      
-
         if(!name) return errorToast('Name is required')
         if(name.length < 3 ) return errorToast('Minimum three chracters mustbe entered')
         if(!number) return errorToast('Mobile number is required')
@@ -112,10 +107,6 @@ function UserHome() {
         setModal(false)
         setSuccessCLoseModal(true)
 
-
-        setTimeout(() => {
-          setSuccessCLoseModal(false);
-        }, 600);
     }  catch (error) {
         console.log(error.message);
       }
@@ -139,7 +130,7 @@ function UserHome() {
       </HomeIndex>
 
       <div className="mx-5 flex flex-col justify-center items-center md:mx-20 lg:mx-28 ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 my-10 max-w-[1300px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 my-10 max-w-[1300px]">
           {properties &&
             properties.map((item, index) => {
               if (index < 9) {
@@ -185,7 +176,7 @@ function UserHome() {
 
         <div className="">
           <div className="m-auto text-[15px] poppins-semibold px-6 py-3 rounded-[10px] bg-[#0D1117] w-fit text-white">
-            <NavLink to={`/property-type/all`}>
+            <NavLink to={`/property-type/all/all`}>
               <h1>View All</h1>
             </NavLink>
           </div>
@@ -216,7 +207,7 @@ function UserHome() {
               </span>{" "}
               <span className="text-[40px] lg:text-[70px]">Projects</span>
             </h1>
-            <button className="hidden sm:block px-4 py-3  bg-black text-white rounded-[10px] poppins-semibold">
+            <button onClick={()=>navigate('/all-cities')} className="hidden sm:block px-4 py-3  bg-black text-white rounded-[10px] poppins-semibold">
               View All Cities
             </button>
           </div>
@@ -287,7 +278,7 @@ function UserHome() {
           </div>
 
           <div className="mb-10 flex sm:hidden justify-center">
-            <button className="bg-black px-5 py-5 poppins-semibold text-[14px] rounded-[10px] text-white">
+            <button onClick={()=>navigate('/all-cities')} className="bg-black px-5 py-5 poppins-semibold text-[14px] rounded-[10px] text-white">
               View All Cities
             </button>
           </div>

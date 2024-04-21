@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   LoginPage,
   AdminLayout,
@@ -42,7 +42,14 @@ import {
   EditClient,
   ViewBannerClient,
   ViewClient,
-  DeveloperLoginPage
+  DeveloperLoginPage,
+  UserAllCities,
+
+
+  AddPropertyTypePage,
+  ViewPropertyTypePage,
+  EditPropertyTypePage
+
 } from "./Routes";
 import { Toaster } from "react-hot-toast";
 
@@ -80,6 +87,16 @@ function App() {
           <Route path="edit-client/:id" element={<EditClient />} />
           <Route path="view-banner-client" element={<ViewBannerClient />} />
           <Route path="view-client" element={<ViewClient />} />
+
+          {/* add property type */}
+          <Route path="add-property-type" element={<AddPropertyTypePage />} />
+          {/* view property type */}
+          <Route path="view-property-type" element={<ViewPropertyTypePage />} />
+          <Route path="edit-property-type/:id" element={<EditPropertyTypePage />} />
+          
+
+
+
         </Route>
 
         {/* developer */}
@@ -94,11 +111,12 @@ function App() {
         <Route path="/apartment" element={<UserApartment />} />
         <Route path="/townhouse" element={<UserTownhouse />} />
         <Route path="/penthouse" element={<UserPenthouse />} />
-        <Route path="/property-type/:type" element={<UserAllProjects />} />
+        <Route path="/property-type/:type/:id" element={<UserAllProjects />} />
         <Route path="/property/:name/:id" element={<UserViewProjects />} />
         <Route path="/terms-conditions" element={<TermsAndConditions />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/our-sellers" element={<OurSellers />} />
+        <Route path="/all-cities" element={<UserAllCities />} />
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>

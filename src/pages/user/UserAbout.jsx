@@ -8,7 +8,7 @@ function UserAbout() {
       <div className="mt-2">
         <Header />
       </div>
-      <section className="max-w-[1300px] w-full m-auto">
+      <section className=" w-full m-auto">
         <section className="relative w-[98%] m-auto rounded-[10px] overflow-hidden mt-2 h-[170px] ">
           <img src={AboutBanner} className="w-full h-full object-cover" />
           <div className="flex w-full justify-center  items-center h-full absolute top-0 left-0 ">

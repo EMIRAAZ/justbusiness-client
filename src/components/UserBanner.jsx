@@ -56,7 +56,7 @@ function UserBanner({
               : bannerSubtext}
           </p>
           <button
-            onClick={()=>navigate('/property-type/all')}
+            onClick={()=>navigate('/property-type/all/all')}
             className="mt-3 mb-3 poppins-semibold text-[13px] bg-white text-black px-6 py-3 rounded-[10px]"
           >
             {buttonText && buttonText.length > 19

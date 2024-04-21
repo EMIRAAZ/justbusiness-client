@@ -30,15 +30,17 @@ function UserBlogDetails() {
 
   return (
     <div>
-      <Header />
-      <section className="max-w-[1300px] w-full m-auto">
-        <div className="mx-5 flex flex-col justify-center my-4 lg:my-14 items-center md:mx-20 lg:mx-28 ">
-          <div className="flex flex-col lg:flex-row">
-            <div className="flex-[70%] lg:px-5">
-              <BlogBody item={blog}/>
+      <div className="mt-2">
+        <Header />
+      </div>
+      <section className="  mt-[24px]  px-[24px] w-full lg:px-[80px]">
+        <div className="">
+          <div className="block lg:flex w-full lg:gap-3  ">
+            <div className="flex-none lg:flex-[70%] lg:w-[749px] ">
+              <BlogBody item={blog} />
             </div>
-            <div className="flex-[30%]">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 mt-0  gap-5">
+            <div className="flex-[30%] lg:w-[847px]">
+              <div className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 mt-0  gap-5">
                 {blogs &&
                   blogs.map((item, index) => {
                     // const name =  item.blogTitle.replace(/-/g, ' ');
@@ -46,9 +48,8 @@ function UserBlogDetails() {
                     if (index < 3) {
                       return (
                         <div
-                        
                           key={item._id}
-                          className="border p-4 rounded-[15px] h-fit cursor-pointer"
+                          className="p-5 border rounded-[15px] h-fit cursor-pointer"
                         >
                           <div
                             className="rounded-[10px] overflow-hidden h-[220px]"
@@ -69,13 +70,15 @@ function UserBlogDetails() {
                           <div className="break-words poppins-medium text-sm text-[#666666] text-left mt-3">
                             <p>
                               {item.blogBody.length > 131
-                                ? item.blogBody.slice(0, 131) 
+                                ? item.blogBody.slice(0, 131)
                                 : item.blogBody}
                             </p>
                           </div>
                           <div className="mt-4 mb-2">
                             <button
-                            onClick={()=>navigate(`/blog/${item.blogTitle}/${item._id}`)}
+                              onClick={() =>
+                                navigate(`/blog/${item.blogTitle}/${item._id}`)
+                              }
                               type="button"
                               className="bg-white border border-[#000000] w-full py-3 rounded-[5px] text-[10px] font-semibold poppins-semibold"
                             >
@@ -98,18 +101,26 @@ function UserBlogDetails() {
 
 export default UserBlogDetails;
 
-
-
-
-
-const BlogBody = ({item})=>{
-  return(
+const BlogBody = ({ item }) => {
+  return (
     <div className="">
-        <img src={item.mainImgaeLink} className="rounded-[20px] w-full h-[514px] max-w-[749px] object-cover " alt="" />
-        <h1 className="poppins-semibold text-[30px] lg:leading-tight lg:text-[40px] my-4">{item.blogTitle}</h1>
-        { item.date && <p className='text-[10px] sf-medium lg:text-[20px] text-[#666666]'>{new Date(item.date).toDateString()}</p>}
+      <img
+        src={item.mainImgaeLink}
+        className="rounded-[20px] w-full h-[322px] md:h-[514px] xl:w-full  object-cover "
+        alt=""
+      />
+      <h1 className="poppins-semibold text-[30px] lg:leading-tight lg:text-[40px] mb-4 mt-6">
+        {item.blogTitle}
+      </h1>
+      {item.date && (
+        <p className="text-[10px] sf-medium lg:text-[20px] text-[#666666]">
+          {new Date(item.date).toDateString()}
+        </p>
+      )}
 
-        <p className="sf-medium my-5 text-[14px] lg:text-[15px]  text-[#666666]">{item.blogBody}</p>
+      <p className="sf-medium break-words my-5 text-[14px] lg:text-[15px]  text-[#666666]">
+        {item.blogBody}
+      </p>
     </div>
-  )
-}
+  );
+};

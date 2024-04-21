@@ -29,7 +29,9 @@ function PropertiesCard({ item ,handleRegister,navigate}) {
    console.log(window.location.href);
   };
  
-  const result = item.propertyType.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' , ');
+  const result = item.propertyType.map((i,index) => {
+    return <p key={i?._id}>{i.name} {item.propertyType?.length > (index + 1) && ','}</p>
+  })
   return (
     <div className="max-w-[460px] rounded-[20px] border border-[border-[#D2D2D2] ">
       <div className="w-full h-[221px] relative overflow-hidden rounded-[20px]">
@@ -82,7 +84,7 @@ function PropertiesCard({ item ,handleRegister,navigate}) {
         <div className="text-[#545454] font-normal text-xs  flex justify-between items-center">
           {/* <p>{   item.propertyType && item.propertyType}</p> */}
           {/* <p>{JSON.stringify(item.propertyType)}</p> */}
-          <p>{result}</p>
+          <p className="capitalize flex gap-0.5">{result}</p>
           <p className="flex gap-2 justify-center items-center">
             <FaBed color="#545454" size={18} />{" "}
             <span className="font-normal text-[10px]">{item.beds}</span>{" "}
@@ -114,8 +116,9 @@ function PropertiesCard({ item ,handleRegister,navigate}) {
         <div className="mt-5 mb-2.5 flex gap-2">
           <button
           
-            onClick={() =>
+            onClick={() =>{
               navigate(`/property/${item.propretyHeadline}/${item._id}`, { state: item })
+            }
             }
             className="flex-1 py-2.5 rounded font-semibold text-[10px] bg-[#D2D2D2] text-[#000000]"
           >

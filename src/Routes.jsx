@@ -29,24 +29,27 @@ import ViewClient from "./pages/ViewClient";
 
 // USER ROUTES
 
-import UserHome from "./pages/user/UserHome.jsx";
-import UserAbout from "./pages/user/UserAbout.jsx";
-import UserApartment from "./pages/user/UserApartment.jsx";
-import UserBlog from "./pages/user/UserBlog.jsx";
-import UserTownhouse from "./pages/user/UserTownhouse.jsx";
-import UserPenthouse from "./pages/user/UserPenthouse.jsx";
-import UserAllProjects from "./pages/user/UserAllProjects.jsx";
+import UserHome from "./pages/user/UserHome";
+import UserAbout from "./pages/user/UserAbout";
+import UserApartment from "./pages/user/UserApartment";
+import UserBlog from "./pages/user/UserBlog";
+import UserTownhouse from "./pages/user/UserTownhouse";
+import UserPenthouse from "./pages/user/UserPenthouse";
+import UserAllProjects from "./pages/user/UserAllProjects";
 
-import UserBlogDetails from "./pages/user/UserBlogDetails.jsx";
-import UserViewProjects from "./pages/user/UserViewProjects.jsx";
-import TermsAndConditions from "./pages/user/TermsAndConditions.jsx";
-import PrivacyPolicy from "./pages/user/PrivacyPolicy.jsx";
-import OurSellers from "./pages/user/OurSellers.jsx";
+import UserBlogDetails from "./pages/user/UserBlogDetails";
+import UserViewProjects from "./pages/user/UserViewProjects";
+import TermsAndConditions from "./pages/user/TermsAndConditions";
+import PrivacyPolicy from "./pages/user/PrivacyPolicy";
+import OurSellers from "./pages/user/OurSellers";
+import UserAllCities from "./pages/UserAllCities"
 
 
 // developers
-import DeveloperLoginPage from "./pages/developer/DeveloperLoginPage.jsx"
-
+import DeveloperLoginPage from "./pages/developer/DeveloperLoginPage"
+import ViewPropertyTypePage from "./pages/ViewPropertyType"
+import AddPropertyTypePage from "./pages/AddPropertyType" 
+import EditPropertyTypePage from "./pages/EditPropertyTypePage"
 export {
   LoginPage,
   AdminLayout,
@@ -90,9 +93,14 @@ export {
   TermsAndConditions,
   PrivacyPolicy,
   OurSellers,
+  UserAllCities,
 
 
 
   // developer
-  DeveloperLoginPage
+  DeveloperLoginPage,
+  // property type
+  AddPropertyTypePage,
+  ViewPropertyTypePage,
+  EditPropertyTypePage
 };

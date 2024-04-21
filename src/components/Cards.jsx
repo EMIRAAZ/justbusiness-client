@@ -14,7 +14,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 // import "./index.css"
 
-
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
@@ -64,7 +63,7 @@ function Cards({ item, refresh, setRefresh }) {
           className="mySwiper"
         >
           {item.mainImgaeLink && (
-            <SwiperSlide >
+            <SwiperSlide>
               <img
                 src={item.mainImgaeLink}
                 className="w-full h-full object-cover"
@@ -98,15 +97,23 @@ function Cards({ item, refresh, setRefresh }) {
       </div>
       <div className="px-5 py-3 poppins-medium">
         <div className="text-[#545454] font-normal text-xs  flex justify-between items-center">
-          <p>{   item.propertyType && item.propertyType}
-          </p>
+          <div className="flex gap-2 capitalize">
+            {item.propertyType?.map((i,index) => {
+              return <p key={i?._id}>{i.name} { (item.propertyType?.length - 1) > index && ',' }</p>;
+            })}
+          </div>
           <p className="flex gap-2 justify-center items-center">
             <FaBed color="#545454" size={18} />{" "}
             <span className="font-normal text-[10px]">{item.beds}</span>{" "}
           </p>
         </div>
         <div className="poppins-semibold text-[#000000] text-xl mt-3">
-          <h1>{ item.propretyHeadline &&  item.propretyHeadline.length > 55 ? String(item.propretyHeadline).toLocaleUpperCase().slice(0,56) + '...' : item.propretyHeadline }</h1>
+          <h1>
+            {item.propretyHeadline && item.propretyHeadline.length > 55
+              ? String(item.propretyHeadline).toLocaleUpperCase().slice(0, 56) +
+                "..."
+              : item.propretyHeadline}
+          </h1>
         </div>
         <div className="poppins-semibold text-[#000000] text-base mt-3">
           <h1 className="font-medium">
@@ -124,7 +131,9 @@ function Cards({ item, refresh, setRefresh }) {
         </div>
         <div className="flex items-center gap-1 mt-3">
           <FaBuilding color="#545454" size={15} />
-          <p className="font-semibold text-[10px] poppins">{item.developerName}</p>
+          <p className="font-semibold text-[10px] poppins">
+            {item.developerName}
+          </p>
         </div>
 
         <div className="mt-5 mb-2.5 flex gap-2">
@@ -139,9 +148,9 @@ function Cards({ item, refresh, setRefresh }) {
           <button
             className="flex-1 py-2.5 rounded font-semibold text-[10px] bg-[#000000] text-[#ffffff]"
             onClick={() => {
-              const status = confirm('Are you want to delete!')
-              if(status){
-                handleDelete(item._id)
+              const status = confirm("Are you want to delete!");
+              if (status) {
+                handleDelete(item._id);
               }
             }}
           >

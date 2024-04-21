@@ -11,6 +11,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/authSlice';
+import { ADMIN_ID, ADMIN_TOKEN } from '../api/localstorage-varibles';
 // --------------------REACT-ICONS---------------------------------//
 
 function LefAdminPanel() {
@@ -38,7 +39,8 @@ function LefAdminPanel() {
     //-------------------------------FUNCTIONS-----------------------//
 
     const handleLogout = ()=> {
-        dispatch(logout());
+        localStorage.removeItem(ADMIN_TOKEN)
+        localStorage.removeItem(ADMIN_ID)
         navigate('/admin-login');
     }
     

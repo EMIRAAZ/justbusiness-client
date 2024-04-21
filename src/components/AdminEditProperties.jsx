@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { IoMdAdd, IoMdRemove } from 'react-icons/io';
 import PlaceHolder from "../assets/placeholder/placeholder-image.png";
@@ -6,7 +6,7 @@ import { errorToast, successToast } from '../toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { editPropertySuccess, setError, setLoading } from '../features/propertiesSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCities, getDevelopers, updateProperties } from '../api';
+import { fetchPropertyTypeAPI, getCities, getDevelopers, updateProperties } from '../api';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { fetchCities } from '../features/citiesSlice';
@@ -15,12 +15,14 @@ import { fetchDevelopers } from '../features/developerSlice';
 function EditProperty() {
 
     const {state} = useLocation()
+    console.log(state,'state')
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const animatedComponents = makeAnimated();
 
     const { data } = useSelector((state) => state.city); 
     const { developers } = useSelector((state) => state.developer); 
+    const [propertyType,setPropertyType] = useState([])
 
 
     // --------------------------------------------
@@ -68,11 +70,7 @@ function EditProperty() {
     const uploadSmallImageButton = ()=> uploadSmallImage.current.click();
     // -----------------------------------------------------------------
     
-    const options = [
-        { value: 'apartment', label: 'Apartment' },
-        { value: 'townhouse', label: 'Townhouse' },
-        { value: 'penthouse', label: 'Penthouse' }
-      ]
+ 
 
     // -----------------------------------------------
     const hanldeUploading = (e)=>{
@@ -198,6 +196,11 @@ function EditProperty() {
           dispatch(fetchCities(response_cities));
           const response_developers = await getDevelopers()
           dispatch(fetchDevelopers(response_developers));
+          const response_propertyType = await fetchPropertyTypeAPI()
+        const to_converted_ = response_propertyType?.result?.map((item)=>{
+            return {value:item.propertyType._id,label:item.propertyType.name}
+        })
+        setPropertyType(to_converted_)
         } catch (error) {
           if (error.response && error.response.data) {
             dispatch(setError(error.response.data.message));
@@ -260,7 +263,7 @@ function EditProperty() {
 
             {/* Property Type */}
             <div className="flex cursor-pointer py-4 px-5 rounded-[10px] sf-normal font-extralight text-sm text-[#666666]  outline-none">
-                <Select name='propertyType' onChange={handlePropertyType} closeMenuOnSelect={false} components={animatedComponents} isMulti options={options} />
+                <Select name='propertyType' onChange={handlePropertyType} closeMenuOnSelect={false} components={animatedComponents} isMulti options={propertyType} />
             </div>
 
             {/* Cities */}
