@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-function Lazyloading({src, alt,className}) {
+function Lazyloading({src, alt,className,title}) {
 
     const imageRef = React.useRef();
     const [isVisible,setIsVisible] = React.useState()
@@ -27,7 +27,7 @@ function Lazyloading({src, alt,className}) {
 
     }, [])
   return (
-    <img ref={imageRef} className={className} src={isVisible ? src : ''} alt={src} />
+    <img ref={imageRef} title={title} className={`${className} cursor-pointer`} src={isVisible ? src : ''} alt={alt} />
   )
 }
 

@@ -2,27 +2,17 @@ import axios from "axios";
 
 import {
   ADMIN,
-  BANNER,
-  BANNER_LOGO,
   BLOG,
-  CITY,
-  CLIENT_LOGO,
-  COUNTS,
-  DEVELOPER,
-  FORM,
-  GET_ONE,
+  CATEGORY,
   LOGIN,
-  PROPERTY,
-  PROPERTY_TYPE,
+  USER,
 } from "./api-end-points";
 import { ADMIN_TOKEN } from "./localstorage-varibles";
 
-// const SERVER_URL = `http://127.0.0.1:4000/api/v1`;
-const SERVER_URL = 'https://www.propertyseller.ae/api/v1';
-
-const options = {
-  Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,
-};
+const SERVER_URL = `http://127.0.0.1:8000/api/v1`;
+// const SERVER_URL = 'https://www.propertyseller.ae/api/v1';
+export const MAIN_IMAG_URL = `${SERVER_URL}/mainImage`;
+// const MAIN_IMAG_URL = `${SERVER_URL}/mainImgae/`
 
 // ========ADMIN=LOGIN========//
 export const adminLoginAPI = async (data) => {
@@ -34,13 +24,22 @@ export const adminLoginAPI = async (data) => {
   }
 };
 // ==========================//
+// ========GET=USER=BY=ID========//
+export const getUserById = async (id) => {
+  try {
+    const response = await axios.get(`${SERVER_URL}/${USER}/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error || "An error occurred during login.";
+  }
+};
 
 
-// ========ADDING=PROPERTY========//
-export const addingPropertyAPI = async (data) => {
+// ========ADDING=CATEGORY========//
+export const addingCategoryAPI = async (data) => {
   try {
-    const response = await axios.post(`${SERVER_URL}/${PROPERTY}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
+    const response = await axios.post(`${SERVER_URL}/${CATEGORY}/`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}` },
     });
     return response.data;
   } catch (error) {
@@ -48,41 +47,31 @@ export const addingPropertyAPI = async (data) => {
   }
 };
 // ==========================//
-// ========GET=PROPERTIES========//
-export const getProperties = async (query) => {
+// ========GET=CATEGORY========//
+export const getCategoriesAPI = async () => {
   try {
-    const response = await axios.get(`${SERVER_URL}/${PROPERTY}?${query}`);
+    const response = await axios.get(`${SERVER_URL}/${CATEGORY}/`);
     return response.data;
   } catch (error) {
     throw error || "An error occurred during login.";
   }
 };
 // ==========================//
-// ========GET=PROPERTIES=COUNTS========//
-export const getPropertiesCounts = async () => {
+// ========GET=CATEGORY=BYID=======//
+export const getCategoryByIdAPI = async (id) => {
   try {
-    const response = await axios.get(`${SERVER_URL}/${COUNTS}`);
+    const response = await axios.get(`${SERVER_URL}/${CATEGORY}/${id}`);
     return response.data;
   } catch (error) {
     throw error || "An error occurred during login.";
   }
 };
 // ==========================//
-// ========GET=PROPERTY=BY=ID========//
-export const getPropertyById = async (id) => {
+// ========UPDATE=CATEGORY========//
+export const updateCategoryByIdAPI = async (data) => {
   try {
-    const response = await axios.get(`${SERVER_URL}/${PROPERTY}/${id}`);
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========UPDATE=PROPERTY=========//
-export const updateProperties = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${PROPERTY}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
+    const response = await axios.put(`${SERVER_URL}/${CATEGORY}/`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}` },
     });
     return response.data;
   } catch (error) {
@@ -90,221 +79,26 @@ export const updateProperties = async (data) => {
   }
 };
 // ==========================//
-// ========DELETE=PROPERTY=========//
-export const deleteProperties = async (id) => {
+// ========DELETE=CATEGORY========//
+export const deleteCategoryByIdAPI = async (id) => {
   try {
-    const response = await axios.delete(`${SERVER_URL}/${PROPERTY}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
+    const response = await axios.delete(`${SERVER_URL}/${CATEGORY}/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}` },
     });
     return response.data;
   } catch (error) {
     throw error || "An error occurred during login.";
   }
 };
-// ==========================//
 
-// ========ADDING=DEVELOPER=========//
-export const addingDeveloper = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${DEVELOPER}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========GET=DEVELOPERS=========//
-export const getDevelopers = async () => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${DEVELOPER}/`);
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========UPDATE=DEVELOPERS=========//
-export const updateDeveloper = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${DEVELOPER}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========DELETE=DEVELOPERS=========//
-export const deleteDeveloper = async (id) => {
-  try {
-    const response = await axios.delete(`${SERVER_URL}/${DEVELOPER}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
+//
 
-// ========ADDING=CITY=========//
-export const addingCity = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${CITY}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========ADDING=ENQUIRY=========//
-export const addingEnquiry = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${PROPERTY}/${FORM}`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========GET=CITIES=========//
-export const getCities = async () => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${CITY}/`);
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========ADDING=BANNER=LOGO========//
-export const addingBannerLogo = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${BANNER_LOGO}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========ADDING=CLIENT=LOGO========//
-export const addingClientLogo = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${CLIENT_LOGO}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========GET=BANNER=LOGO========//
-export const getBannerLogos = async (data) => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${BANNER_LOGO}/`, data);
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========GET=CLIENT=LOGO========//
-export const getClientLogos = async (data) => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${CLIENT_LOGO}/`, data);
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========UPDATE=BANNER=LOGO========//
-export const updateBannerLogo = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${BANNER_LOGO}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========UPDATE=CLIENT=LOGO========//
-export const updateClientLogo = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${CLIENT_LOGO}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========DELETE=BANNER=LOGO========//
-export const deleteBannerLogo = async (id) => {
-  try {
-    const response = await axios.delete(`${SERVER_URL}/${BANNER_LOGO}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========DELETE=CLIENT=LOGO========//
-export const deleteClientLogo = async (id) => {
-  try {
-    const response = await axios.delete(`${SERVER_URL}/${CLIENT_LOGO}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========UPDATE=CITY========//
-export const updateCity = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${CITY}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========DELETE=CITY========//
-export const deleteCity = async (id) => {
-  try {
-    const response = await axios.delete(`${SERVER_URL}/${CITY}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
 
 // ========ADDING=BLOG========//
-export const addingBlog = async (data) => {
+export const addingBlogAPI = async (data) => {
   try {
     const response = await axios.post(`${SERVER_URL}/${BLOG}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
+      headers: { Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}` },
     });
     return response.data;
   } catch (error) {
@@ -312,9 +106,8 @@ export const addingBlog = async (data) => {
   }
 };
 // ==========================//
-
 // ========GET=BLOGS========//
-export const getBlogs = async () => {
+export const getBlogsAPI = async () => {
   try {
     const response = await axios.get(`${SERVER_URL}/${BLOG}/`);
     return response.data;
@@ -324,9 +117,9 @@ export const getBlogs = async () => {
 };
 // ==========================//
 // ========GET=BLOG=BYID=======//
-export const getBlogById = async (id) => {
+export const getBlogByIdAPI = async (id) => {
   try {
-    const response = await axios.get(`${SERVER_URL}/${BLOG}/${GET_ONE}/${id}`);
+    const response = await axios.get(`${SERVER_URL}/${BLOG}/${id}`);
     return response.data;
   } catch (error) {
     throw error || "An error occurred during login.";
@@ -334,10 +127,10 @@ export const getBlogById = async (id) => {
 };
 // ==========================//
 // ========UPDATE=BLOG========//
-export const updateBlog = async (data) => {
+export const updateBlogByIdAPI = async (data) => {
   try {
     const response = await axios.put(`${SERVER_URL}/${BLOG}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
+      headers: { Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}` },
     });
     return response.data;
   } catch (error) {
@@ -346,128 +139,10 @@ export const updateBlog = async (data) => {
 };
 // ==========================//
 // ========DELETE=BLOG========//
-export const deleteBlog = async (id) => {
+export const deleteBlogByIdAPI = async (id) => {
   try {
     const response = await axios.delete(`${SERVER_URL}/${BLOG}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-
-// ========ADDING=BANNER========//
-export const addingBanner = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${BANNER}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========GET=BANNERS=BYID=======//
-export const getBanners = async () => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${BANNER}/`);
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========UPDATE=BANNER========//
-export const updateBanner = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${BANNER}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ==========================//
-// ========DELETE=BANNER========//
-export const deleteBanner = async (id) => {
-  try {
-    const response = await axios.delete(`${SERVER_URL}/${BANNER}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-
-// ========GET=ENQUIRIES=======//
-export const getEnquiries = async () => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${PROPERTY}/${FORM}/`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-
-
-
-
-
-// ========ADDING=PROPERTY=TYPE========//
-export const addingPropertyTypeAPI = async (data) => {
-  try {
-    const response = await axios.post(`${SERVER_URL}/${PROPERTY_TYPE}/`, data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ========VIEW=PROPERTY=TYPE========//
-export const fetchPropertyTypeAPI = async () => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${PROPERTY_TYPE}/`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ========UPDATE=PROPERTY=TYPE========//
-export const updatePropertyType = async (data) => {
-  try {
-    const response = await axios.put(`${SERVER_URL}/${PROPERTY_TYPE}/`,data, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ========DELETE=PROPERTY=TYPE========//
-export const deletePropertyType = async (id) => {
-  try {
-    const response = await axios.delete(`${SERVER_URL}/${PROPERTY_TYPE}/${id}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
-    });
-    return response.data;
-  } catch (error) {
-    throw error || "An error occurred during login.";
-  }
-};
-// ========FETCH=PROPERTY=COUNT========//
-export const fetchPropertyTypeCountAPI = async () => {
-  try {
-    const response = await axios.get(`${SERVER_URL}/${PROPERTY_TYPE}/${COUNTS}`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}`,},
+      headers: { Authorization: `Bearer ${localStorage.getItem(ADMIN_TOKEN)}` },
     });
     return response.data;
   } catch (error) {
