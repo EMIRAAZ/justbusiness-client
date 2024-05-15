@@ -42,7 +42,6 @@ function AddBlog() {
       const formDataFields = new FormData();
       formDataFields.append("blogTitle", formData.blogTitle);
       formDataFields.append("blogBody", formData.blogBody);
-      formDataFields.append("date", formData.date);
       formDataFields.append("categoryId", formData.categoryId);
 
       if (image) {
@@ -116,7 +115,7 @@ function AddBlog() {
         </div>
 
         {/* Date */}
-        <div className="flex flex-col gap-2 mx-3">
+      {/*  <div className="flex flex-col gap-2 mx-3">
           <label
             htmlFor="date"
             className="sf-medium font-medium text-sm text-[#000000]"
@@ -135,6 +134,7 @@ function AddBlog() {
             className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal font-extralight text-sm text-[#666666]  outline-none"
           />
         </div>
+        */}
 
         {/* categories */}
         <div className="flex flex-col gap-2 mx-3 relative">
@@ -148,7 +148,7 @@ function AddBlog() {
             onClick={() => setOptionsCities(!optionsCities)}
             className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal font-extralight text-sm text-[#666666]  outline-none"
           >
-            <span>{formData.categoryName ? formData.categoryName : "Select City"}</span>
+            <span>{formData.categoryName ? formData.categoryName : "Select category"}</span>
             <span className="absolute right-5 top-12">
               {optionsCities ? <FaAngleUp /> : <FaAngleDown />}
             </span>

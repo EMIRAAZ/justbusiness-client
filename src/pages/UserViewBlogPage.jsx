@@ -32,7 +32,8 @@ function UserViewBlogPage() {
       const result = await getBlogsAPI();
       const isMatch = result?.result?.find((item) => item._id === id);
       const isFiltered = result?.result?.filter((item) => item._id !== id);
-      setData(isFiltered);
+      const sortedBlogs = isFiltered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setData(sortedBlogs);
       if (isMatch) {
         setBlog(isMatch);
       }
@@ -62,7 +63,7 @@ function UserViewBlogPage() {
 { isLoading ? <Loader/> : <>
     <Header />
 
-<section className="lg:mx-[100px] lg:flex-row flex-col mt-[20px] lg:mt-[40px] mb-[100px] gap-9 flex mx-[24px]">
+<section className="lg:mx-[100px] lg:flex-row flex-col mt-[20px] lg:mt-[40px] mb-[100px] gap-9 flex mx-[20px]">
   <div className="lg:flex-[65%]  flex-1 flex flex-col ">
     <div className="lg:h-[514px] w-full h-[322px]  rounded-[20px] overflow-hidden">
       <Lazyloading
@@ -89,7 +90,7 @@ function UserViewBlogPage() {
         {blog?.blogTitle}
       </h1>
     </div>
-    <div className="mt-3">
+    {/* <div className="mt-3">
       <span
         title={
           blog?.date &&
@@ -110,9 +111,9 @@ function UserViewBlogPage() {
             new Date(blog?.date).getFullYear()
         }`}
       </span>
-    </div>
+    </div> */}
     <div className="poppins-medium text-[#666666] text-left mt-3 lg:text-[15px] text-[14px]">
-      <p title={blog?.blogBody}>{blog?.blogBody}</p>
+      <p className="whitespace-pre-line" title={blog?.blogBody}>{blog?.blogBody}</p>
     </div>
   </div>
   <div className="flex-[35%]  flex flex-col justify-start ">

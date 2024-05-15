@@ -9,8 +9,8 @@ import {
 } from "./api-end-points";
 import { ADMIN_TOKEN } from "./localstorage-varibles";
 
-const SERVER_URL = `http://127.0.0.1:8000/api/v1`;
-// const SERVER_URL = 'https://www.propertyseller.ae/api/v1';
+// const SERVER_URL = `http://127.0.0.1:8000/api/v1`;
+const SERVER_URL = 'https://www.thedubaithings.com/api/v1';
 export const MAIN_IMAG_URL = `${SERVER_URL}/mainImage`;
 // const MAIN_IMAG_URL = `${SERVER_URL}/mainImgae/`
 

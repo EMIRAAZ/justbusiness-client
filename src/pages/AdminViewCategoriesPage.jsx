@@ -2,6 +2,7 @@ import React from "react";
 import Heading from "../components/Heading/Heading";
 import MiniCard from "../components/MiniCard/MiniCard";
 import { deleteCategoryByIdAPI, getCategoriesAPI } from "../api";
+import { errorToast } from "../toast";
 
 function AdminViewCategoriesPage() {
   const [data, setData] = React.useState([]);
@@ -23,8 +24,14 @@ function AdminViewCategoriesPage() {
   const handleDeleteClick = async (id) => {
     const status = window.confirm("Are you want to delete ?");
     if (status) {
-      await deleteCategoryByIdAPI(id);
-      setRefresh(!refresh);
+      try {
+        await deleteCategoryByIdAPI(id);
+        setRefresh(!refresh);
+      } catch (error) {
+        return errorToast(
+          error.response?.data?.message || error?.message || "error occur"
+        );
+      }
     }
   };
 

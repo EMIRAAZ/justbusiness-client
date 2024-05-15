@@ -31,7 +31,8 @@ function UserHomePage() {
     try {
       setLoading(true);
       const result = await getBlogsAPI();
-      setData(result.result);
+      const sortedBlogs = result.result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setData(sortedBlogs);
       setLoading(false);
     } catch (error) {
       console.log(error.message);
@@ -69,7 +70,7 @@ function UserHomePage() {
         <>
           <Header />
 
-          <section className="md:mx-[100px] mx-[24px]">
+          <section className="md:mx-[100px] mx-[20px]">
             {/* categories */}
             <div className="md:mt-[50px] mt-[30px]">
               <UserCategories />

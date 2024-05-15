@@ -30,7 +30,8 @@ function UserAllProjectsPage() {
       const isFiltered = result?.result?.filter(
         (item) => item.categoryId === id
       );
-      setData(isFiltered);
+      const sortedBlogs = isFiltered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setData(sortedBlogs);
       setLoading(false);
     } catch (error) {
       console.log(error.message);
@@ -79,7 +80,7 @@ function UserAllProjectsPage() {
         <>
           <Header />
 
-          <section className="md:mx-[100px] mx-[24px]">
+          <section className="md:mx-[100px] mx-[20px]">
             <div className="flex justify-center items-center mt-[30px]">
               <h1
                 title={name.toUpperCase()}

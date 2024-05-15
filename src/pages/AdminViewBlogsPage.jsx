@@ -3,6 +3,7 @@ import Heading from "../components/Heading/Heading";
 import { deleteBlogByIdAPI, getBlogsAPI } from "../api";
 import MiniCard from "../components/MiniCard/MiniCard";
 import Blog from "../components/Blog/Blog";
+import { errorToast } from "../toast";
 
 function AdminViewBlogsPage() {
   const [data, setData] = React.useState([]);
@@ -24,8 +25,15 @@ function AdminViewBlogsPage() {
   const handleDeleteClick = async (id) => {
     const status = window.confirm("Are you want to delete ?");
     if (status) {
-      await deleteBlogByIdAPI(id);
-      setRefresh(!refresh);
+      try {
+        const response = await deleteBlogByIdAPI(id);
+        setRefresh(!refresh);
+      } catch (error) {
+        console.log(error,'error.response?.data?.message')
+        return errorToast(
+          error.response?.data?.message || error?.message || "error occur"
+        );
+      }
     }
   };
 
