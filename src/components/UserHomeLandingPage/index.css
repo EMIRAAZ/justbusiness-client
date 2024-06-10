@@ -1,0 +1,15 @@
+.home-index{
+    background-image: url("../../assets/new/banner/bg.jpeg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+@media (max-width:600px){
+    .home-index{
+        background-image: url("../../assets/new/banner/mobile.jpg");
+    }
+}
+
+.banner-overlap {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 2.91%, rgba(0, 0, 0, 0.1) 100%);
+}

@@ -6,7 +6,7 @@ function ManageCard({ url, title }) {
   return (
     <div
       onClick={() => navigate(url)}
-      className="flex h-20 lg:h-16  items-center  flex-1 justify-between px-6 rounded-[10px] bg-[#F7B519] text-[#000000] cursor-pointer"
+      className="flex h-20 lg:h-16  items-center  flex-1 justify-between px-6 rounded-[10px] bg-[#016EFF] text-[#fff] cursor-pointer"
     >
       <span className="capitalize">{title}</span>
       <span>

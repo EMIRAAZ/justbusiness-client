@@ -1,0 +1,6 @@
+.package-lists-features::after{
+    content: "\2714";
+    position: absolute;
+    top: 0px;
+    left: -20px;
+}

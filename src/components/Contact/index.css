@@ -1,0 +1,27 @@
+.contact{
+    background-image: url("../../assets/new/contact/bg.jpeg");
+    
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+@media (max-width:600px){
+    .contact{
+        background-image: url("../../assets/new/contact/bg-mobile.jpeg");
+        background-position: center ;
+        background-size: cover;
+    }
+}
+
+.contact-overlap {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 2.91%, rgba(0, 0, 0, 0.1) 100%);
+}
+
+.form-bg{
+    background: linear-gradient(117.07deg, rgba(255, 255, 255, 0.75) 0.74%, rgba(255, 255, 255, 0.65) 100.93%);
+}
+@media(max-width:440px){
+    .contact-main-title{
+        letter-spacing: -2px;
+    }
+}

@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {thedubaithings} from "../assets/icons";
+import Logo from "../assets/new/logo/white-p.png"
 
 // --------------------REACT-ICONS---------------------------------//
-import { FaRegCircleUser } from "react-icons/fa6";
+import { FaPeopleGroup, FaRegCircleUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import { FaBlogger, FaRegBuilding } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
@@ -11,6 +11,9 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { ADMIN_ID, ADMIN_TOKEN } from "../api/localstorage-varibles";
 import { ADMIN_LOGIN } from "../api/routes-names";
 import { getUserById } from "../api";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import {LuPackage} from "react-icons/lu"
+import {RxActivityLog} from "react-icons/rx"
 // --------------------REACT-ICONS---------------------------------//
 
 function LefAdminPanel() {
@@ -40,7 +43,7 @@ function LefAdminPanel() {
   };
 
   React.useEffect(() => {
-    fetchdata();
+    // fetchdata();
 
     return () => {
       setData([]);
@@ -59,21 +62,20 @@ function LefAdminPanel() {
   return (
     <>
       <div
-        className={`${style} z-50 fixed md:overflow-clip overflow-scroll top-1 left-0 ease-out duration-1000 max-w-60 h-[99vh] rounded-e-[50px] bg-[#F7B519] text-[#000000]`}
+        className={`${style} z-50 fixed md:overflow-clip overflow-scroll top-1 left-0 ease-out duration-1000 max-w-64 h-[99vh] rounded-e-[50px] bg-[#016EFF] text-[#000000]`}
       >
         <div className="pt-14 px-6">
-          <img src={thedubaithings} alt="logo" className="w-44 h-12 object-contain" />
+          <img src={Logo} alt="logo" className="w-44 h-12 object-contain" />
         </div>
-        <div className="flex justify-center items-center font-medium sf-medium flex-col">
+        <div className="flex justify-center items-center font-medium sf-medium text-white flex-col">
           <div className="mt-12  ">
             <FaRegCircleUser size={50} />
           </div>
           <h1 className="text-center text-2xl pb-1.5">
             {data?.name || "Admin"}
           </h1>
-          <h2 className="text-center text-sm pb-1.5">Edit Profile</h2>
           <h3
-            className=" flex justify-center text-sm items-center gap-2"
+            className=" cursor-pointer flex justify-center text-sm items-center gap-2"
             onClick={handleLogout}
           >
             Logout <MdLogout />
@@ -81,19 +83,60 @@ function LefAdminPanel() {
         </div>
         <div className="flex justify-center text-[#000000] sf-medium font-medium pt-10 pb-12 px-4 ">
           <ul>
+
+
+          <Link to={"/admin/enquiries"}>
+              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#016EFF] bg-transparent hover:bg-white text-white py-3 px-8 rounded-lg">
+                {" "}
+                <FaPeopleGroup /> Enquiries
+              </li>
+            </Link>
+
+
+          <Link to={"/admin/activity"}>
+              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#016EFF] bg-transparent hover:bg-white text-white py-3 px-8 rounded-lg">
+                {" "}
+                <RxActivityLog /> Manage Activity
+              </li>
+            </Link>
+
+          <Link to={"/admin/package"}>
+              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#016EFF] bg-transparent hover:bg-white text-white py-3 px-8 rounded-lg">
+                {" "}
+                <LuPackage /> Manage Package
+              </li>
+            </Link>
+
+
           <Link to={"/admin/blogs"}>
-              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#F7B519] bg-white py-3 px-8 rounded-lg">
+              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#016EFF] bg-transparent hover:bg-white text-white py-3 px-8 rounded-lg">
                 {" "}
                 <FaBlogger /> Manage Blogs
               </li>
             </Link>
 
-            <Link to={"/admin/categories"}>
-              <li className="flex transition-all duration-150 ease-in-out hover:scale-105  items-center gap-3 hover:text-[#F7B519]  bg-white  py-3 px-8   rounded-lg">
+
+           
+
+            <Link to={"/admin/lead"}>
+              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#016EFF] bg-transparent hover:bg-white text-white py-3 px-8 rounded-lg">
                 {" "}
-                <FaRegBuilding /> Categories
+                <IoMdAddCircleOutline /> Manage Lead
               </li>
             </Link>
+
+
+
+            <Link to={"/admin/contact-us"}>
+              <li className="flex transition-all my-2 duration-150 ease-in-out hover:scale-105  items-center gap-3  hover:text-[#016EFF] bg-transparent hover:bg-white text-white py-3 px-8 rounded-lg">
+                {" "}
+                <IoMdAddCircleOutline /> Reach US
+              </li>
+            </Link>
+            
+            
+
+            
    
           </ul>
         </div>

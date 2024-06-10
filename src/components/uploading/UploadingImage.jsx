@@ -32,7 +32,7 @@ function UploadingImage({
       />
       <div
         onClick={uploadImageButton}
-        className="w-48 h-11 bg-[#F7B519] text-[#000000] hover:bg-[#F7B519] flex justify-center items-center rounded-[4px] cursor-pointer"
+        className="w-48 h-11 bg-[#016EFF] text-[#fff] hover:bg-[#016EFF] flex justify-center items-center rounded-[4px] cursor-pointer"
       >
         <span>Select Image </span>
       </div>

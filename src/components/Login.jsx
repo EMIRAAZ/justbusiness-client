@@ -41,7 +41,7 @@ function Login() {
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-2 md:mx-0">
       <div className="sf-medium font-medium text-center mb-10">
-        <h1 className="text-[#F7B519] text-5xl ">Welcome Back Admin</h1>
+        <h1 className="text-[#016EFF] text-5xl ">Welcome Back Admin</h1>
         <p className=" text-sm text-[#666666] mt-1">
           Enter your credentials to access Admin Panel
         </p>
@@ -106,7 +106,7 @@ function Login() {
         <button
           type="submit"
           disabled={isLoading}
-          className="rounded-[10px] bg-[#F7B519] sf-bold text-xl text-[#000000] text-center w-full py-6"
+          className="rounded-[10px] bg-[#016EFF] sf-bold text-xl text-[#fff] text-center w-full py-6"
         >
           {isLoading ? "Loading..." : "Sign In"}
         </button>

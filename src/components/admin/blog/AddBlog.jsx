@@ -1,16 +1,13 @@
-import React, { useRef, useState } from "react";
+import {  useState } from "react";
 import PlaceHolder from "../../../assets/placeholder/placeholder-image.png";
 import { CiCircleRemove } from "react-icons/ci";
 import { errorToast, successToast } from "../../../toast";
 import UploadingImage from "../../uploading/UploadingImage";
-import { addingBlogAPI, getCategoriesAPI } from "../../../api";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { addingBlogAPI} from "../../../api";
 
 function AddBlog() {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState("");
-  const [data, setData] = useState([]);
-  const [optionsCities, setOptionsCities] = useState(false);
   // --------------------------------------------
 
   // -----------------------------------------------------
@@ -19,8 +16,6 @@ function AddBlog() {
     blogBody: "",
     preview: "",
     date: "",
-    categoryName: "",
-    categoryId: "",
   });
   // -----------------------------------------------------
 
@@ -42,7 +37,6 @@ function AddBlog() {
       const formDataFields = new FormData();
       formDataFields.append("blogTitle", formData.blogTitle);
       formDataFields.append("blogBody", formData.blogBody);
-      formDataFields.append("categoryId", formData.categoryId);
 
       if (image) {
         formDataFields.append("mainImgaeLink", image);
@@ -56,8 +50,6 @@ function AddBlog() {
         blogTitle: "",
         date: "",
         preview: "",
-        categoryId: "",
-        categoryName: "",
       });
 
       setIsLoading(false);
@@ -71,23 +63,6 @@ function AddBlog() {
     }
   };
 
-  React.useEffect(() => {
-    fetchdata();
-  }, []);
-
-  const fetchdata = async () => {
-    try {
-      const banners = await getCategoriesAPI();
-      setData(banners.result);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleCategories = (name, id) => {
-    setOptionsCities(!optionsCities);
-    setFormData({ ...formData, categoryId: id, categoryName: name });
-  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-wrap">
@@ -137,7 +112,7 @@ function AddBlog() {
         */}
 
         {/* categories */}
-        <div className="flex flex-col gap-2 mx-3 relative">
+        {/* <div className="flex flex-col gap-2 mx-3 relative">
           <label
             htmlFor="categories"
             className="sf-medium font-medium text-sm text-[#000000]"
@@ -167,7 +142,7 @@ function AddBlog() {
                 ))}
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Blog Body */}
         <div className="flex flex-col gap-2 mx-3 mt-3">
@@ -194,10 +169,10 @@ function AddBlog() {
 
       <div className="px-4 flex-1">
         {/*  Main image */}
-        <h1 className="mb-3 text-4xl font-medium sf-medium text-[#F7B519]">
+        <h1 className="mb-3 text-4xl font-medium sf-medium text-[#000000]">
           Media
         </h1>
-        <h2 className="sf-medium font-medium text-sm mb-3 text-[#F7B519]">
+        <h2 className="sf-medium font-medium text-sm mb-3 text-[#000000]">
           Main Image
         </h2>
         <div className="flex gap-3 items-center">
@@ -234,7 +209,7 @@ function AddBlog() {
 
         {/* submit */}
         <div className="p-3 poppins-semibold text-lg">
-          <button disabled={isLoading} type="submit" className="w-52 h-11 bg-[#F7B519] text-[#000000] hover:bg-[#F7B519] flex justify-center items-center rounded-[4px] cursor-pointer">
+          <button disabled={isLoading} type="submit" className="w-52 h-11 bg-[#016EFF] text-[#fff] hover:bg-[#016EFF] flex justify-center items-center rounded-[4px] cursor-pointer">
             
               {isLoading ? "Loading..." : "Save"}
             

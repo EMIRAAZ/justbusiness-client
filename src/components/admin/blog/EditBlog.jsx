@@ -4,16 +4,13 @@ import { CiCircleRemove } from "react-icons/ci";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import UploadingImage from "../../uploading/UploadingImage";
 import { useNavigate, useParams } from "react-router-dom";
-import { MAIN_IMAG_URL, getBlogByIdAPI, getCategoriesAPI, updateBlogByIdAPI } from "../../../api";
+import { MAIN_IMAG_URL, getBlogByIdAPI, updateBlogByIdAPI } from "../../../api";
 import { errorToast, successToast } from "../../../toast";
 
 function EditBlog() {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState("");
-  const [data, setData] = useState([]);
-  const [categories, setCategories] = useState([]);
   const { id } = useParams();
-  const [optionsCities, setOptionsCities] = useState(false);
   const navigate = useNavigate();
   // --------------------------------------------
 
@@ -23,8 +20,6 @@ function EditBlog() {
     blogBody: "",
     preview: "",
     date: "",
-    categoryName: "",
-    categoryId: "",
   });
   // -----------------------------------------------------
 
@@ -46,8 +41,6 @@ function EditBlog() {
       const formDataFields = new FormData();
       formDataFields.append("blogTitle", formData.blogTitle);
       formDataFields.append("blogBody", formData.blogBody);
-      // formDataFields.append("date", formData.date);
-      formDataFields.append("categoryId", formData.categoryId);
       formDataFields.append("_id", formData._id);
 
       if (image) {
@@ -62,8 +55,6 @@ function EditBlog() {
         blogTitle: "",
         date: "",
         preview: "",
-        categoryId: "",
-        categoryName: "",
       });
       setIsLoading(false);
       navigate("/admin/view-blogs");
@@ -92,17 +83,10 @@ function EditBlog() {
     try {
       const response = await getBlogByIdAPI(id);
       setFormData({...response.result});
-      const categories = await getCategoriesAPI();
-      setCategories(categories.result);
       setImage(response?.result?.mainImgaeLink)
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  const handleCategories = (name, id) => {
-    setOptionsCities(!optionsCities);
-    setFormData({ ...formData, categoryId: id, categoryName: name });
   };
 
   return (
@@ -114,6 +98,7 @@ function EditBlog() {
             htmlFor="blogTitle"
             className="sf-medium font-medium text-sm text-[#000000]"
           >
+
             Blog Title
           </label>
           <input
@@ -128,61 +113,6 @@ function EditBlog() {
             title="Blog title"
             className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal font-extralight text-sm text-[#666666]  outline-none"
           />
-        </div>
-
-        {/* Date */}
-        {/* <div className="flex flex-col gap-2 mx-3">
-          <label
-            htmlFor="date"
-            className="sf-medium font-medium text-sm text-[#000000]"
-          >
-            Date
-          </label>
-          <input
-            disabled={isLoading}
-            autoComplete=""
-            value={formData.date}
-            name="date"
-            onChange={handleChange}
-            type="date"
-            id="date"
-            defaultValue={formData.date}
-            title="Date"
-            className="border border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal font-extralight text-sm text-[#666666]  outline-none"
-          />
-        </div> */}
-
-        {/* categories */}
-        <div className="flex flex-col gap-2 mx-3 relative">
-          <label
-            htmlFor="categories"
-            className="sf-medium font-medium text-sm text-[#000000]"
-          >
-            Categories
-          </label>
-          <div
-            onClick={() => setOptionsCities(!optionsCities)}
-            className="flex cursor-pointer border w-full border-[#E4E4E4] py-4 px-5 rounded-[10px] sf-normal font-extralight text-sm text-[#666666]  outline-none"
-          >
-            <span>{formData.categoryName ? formData.categoryName : "Select category"}</span>
-            <span className="absolute right-5 top-12">
-              {optionsCities ? <FaAngleUp /> : <FaAngleDown />}
-            </span>
-          </div>
-          {optionsCities && (
-            <div className="z-20 absolute rounded-[10px] top-24 bg-white w-full border p-3">
-              {categories &&
-                categories.map((item, i) => (
-                  <p
-                    key={i}
-                    onClick={() => handleCategories(item.name, item._id)}
-                    className="py-1 cursor-pointer"
-                  >
-                    {item.name}
-                  </p>
-                ))}
-            </div>
-          )}
         </div>
 
         {/* Blog Body */}
@@ -210,10 +140,10 @@ function EditBlog() {
 
       <div className="px-4 flex-1">
         {/*  Main image */}
-        <h1 className="mb-3 text-4xl font-medium sf-medium text-[#F7B519]">
+        <h1 className="mb-3 text-4xl font-medium sf-medium text-[#000]">
           Media
         </h1>
-        <h2 className="sf-medium font-medium text-sm mb-3 text-[#F7B519]">
+        <h2 className="sf-medium font-medium text-sm mb-3 text-[#000]">
           Main Image
         </h2>
         <div className="flex gap-3 items-center">
@@ -256,7 +186,7 @@ function EditBlog() {
 
         {/* submit */}
         <div className="p-3 poppins-semibold text-lg">
-          <button disabled={isLoading} type="submit" className="w-52 h-11 bg-[#F7B519] text-[#000000] hover:bg-[#F7B519] flex justify-center items-center rounded-[4px] cursor-pointer">
+          <button disabled={isLoading} type="submit" className="w-52 h-11 bg-[#016EFF] text-[#fff] hover:bg-[#016EFF] flex justify-center items-center rounded-[4px] cursor-pointer">
             
               {isLoading ? "Loading..." : "Save"}
             

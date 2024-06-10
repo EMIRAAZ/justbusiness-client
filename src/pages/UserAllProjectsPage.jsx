@@ -60,7 +60,7 @@ function UserAllProjectsPage() {
 
   const seo_description = "thedubaithings categories page";
   const seo_title = name.toUpperCase();
-  const seo_site_url = "thedubaithings.com";
+  const seo_site_url = window.location.href
 
   return (
     <div>

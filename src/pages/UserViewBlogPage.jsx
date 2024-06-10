@@ -8,6 +8,7 @@ import Blog from "../components/Blog/Blog";
 import { useParams } from "react-router-dom";
 import MobileBlog from "../components/Blog/MobileBlog";
 import Loader from "../components/Loader/Loader";
+import NormalHeader from "../components/Header/NormalHeader";
 
 function UserViewBlogPage() {
   const [data, setData] = React.useState([]);
@@ -46,7 +47,7 @@ function UserViewBlogPage() {
 
   const seo_description = blog?.blogBody ;
   const seo_title = blog?.blogTitle;
-  const seo_site_url = "thedubaithings.com";
+  const seo_site_url = window.location.href
 
   return (
     <div>
@@ -61,8 +62,12 @@ function UserViewBlogPage() {
       </Helmet>
 
 { isLoading ? <Loader/> : <>
-    <Header />
 
+<div className="lg:mx-[100px] mx-[20px] ">
+  
+<NormalHeader />
+
+</div>
 <section className="lg:mx-[100px] lg:flex-row flex-col mt-[20px] lg:mt-[40px] mb-[100px] gap-9 flex mx-[20px]">
   <div className="lg:flex-[65%]  flex-1 flex flex-col ">
     <div className="lg:h-[514px] w-full h-[322px]  rounded-[20px] overflow-hidden">
@@ -73,15 +78,8 @@ function UserViewBlogPage() {
         className="rounded-[20px] w-full h-full object-cover"
       />
     </div>
-    <div className="mt-4 mb-0 ">
-      <span
-        title={blog?.categoryName}
-        className="lg:text-[32px] text-[20px] text-[#F7B519] sf-bold"
-      >
-        {blog?.categoryName || "Events"}
-      </span>
-    </div>
-    <div className="overflow-hidden   mt-2">
+    
+    <div className="overflow-hidden   mt-4">
       <h1
         className={`sf-bold lg:text-[40px] text-[30px] leading-[38px] lg:leading-[50px]`}
         style={{ textOverflow: "ellipsis" }}
@@ -117,7 +115,7 @@ function UserViewBlogPage() {
     </div>
   </div>
   <div className="flex-[35%]  flex flex-col justify-start ">
-    <div className="hidden md:flex flex-wrap justify-start flex-col sm:flex-row gap-7 sf-medium font-medium text-2xl">
+    <div className=" md:flex flex-wrap justify-start flex-col sm:flex-row gap-1 sf-medium font-medium text-2xl">
       {data &&
         data.map((item, index) => {
           if (index < 3) {
@@ -133,7 +131,7 @@ function UserViewBlogPage() {
         })}
     </div>
 
-    <div className="gap-5 mt-[24px] flex flex-col md:hidden sf-medium font-medium text-2xl">
+    {/* <div className="gap-5  mt-[24px] flex flex-col md:hidden sf-medium font-medium text-2xl">
       {data &&
         data.map((item, index) => {
           if (index < 3) {
@@ -147,11 +145,15 @@ function UserViewBlogPage() {
             );
           }
         })}
-    </div>
+    </div> */}
   </div>
 </section>
 
+
+<div className="lg:mx-[100px] mx-[20px]">
+
 <Footer />
+</div>
 
 </>}
     </div>
